@@ -1,0 +1,95 @@
+<!--
+  Copyright 2011 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<resources>
+
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="left_menu_header_divider_size">1sp</dimen>
+
+    <integer name="num_cols">1</integer>
+
+    <dimen name="text_size_xlarge">28sp</dimen>
+    <dimen name="text_size_Large">14sp</dimen>
+    <dimen name="text_size_nineteen">19sp</dimen>
+    <dimen name="heading_text_size_Large">22sp</dimen>
+    <dimen name="profile_name_text_size">18sp</dimen>
+    <dimen name="text_size_Medium">18sp</dimen>
+    <dimen name="text_size_med">20sp</dimen>
+    <dimen name="text_size_Small">14sp</dimen>
+    <dimen name="text_size_very_Small">10sp</dimen>
+    <dimen name="text_size_calendar_medium">22dp</dimen>
+    <dimen name="bootm_margin">15dp</dimen>
+    <dimen name="left_margin_userprof_pic">15dp</dimen>
+    <dimen name="left_margin_bs_button">2dp</dimen>
+    <dimen name="left_margin_bs_layout">1dp</dimen>
+    <dimen name="left_margin_add_friend">10dp</dimen>
+    <dimen name="left_margin_list_image">8dp</dimen>
+    <dimen name="left_margin_list_image_top">10dp</dimen>
+    <dimen name="left_margin_msg_btn_send">40dp</dimen>
+    <dimen name="left_margin_msg_btn_inbox">10dp</dimen>
+    <dimen name="left_margin_msg_btn_layout_top">30dip</dimen>
+    <dimen name="left_margin_msg_btn_layout_left">40dp</dimen>
+    <dimen name="left_margin_msg_btn_inbox_width">90dp</dimen>
+    <!-- left fragment list -->
+
+    <dimen name="list_padding_from_top">40dp</dimen>
+    <dimen name="left_menu_divider_size">1dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="font_large">22dp</dimen>
+    <dimen name="font_for_med">20dp</dimen>
+    <dimen name="font_medium">18dp</dimen>
+    <dimen name="font_small">12dp</dimen>
+    <dimen name="screen_margin_between_title">15dp</dimen>
+    <dimen name="screen_title_size">25sp</dimen>
+    <dimen name="screen_title_sublabel_size">20sp</dimen>
+    <dimen name="screen_edit_text_size">18sp</dimen>
+    <dimen name="screen_button_text_size">18sp</dimen>
+    <dimen name="screen_fullmargin">6dp</dimen>
+    <dimen name="screen_margin_right_left">20dp</dimen>
+    <dimen name="screen_margin_top_btn">10dp</dimen>
+    <dimen name="screen_top_bar_size">50dp</dimen>
+    <dimen name="screen_btn_bottom_margin">20dp</dimen>
+    <dimen name="screen_text_small">15sp</dimen>
+    <dimen name="screen_text_list">15sp</dimen>
+    <dimen name="screen_text_medium">21sp</dimen>
+    <dimen name="pager_title_padding">4dp</dimen>
+    <dimen name="pager_title_height">38dp</dimen>
+    <dimen name="phone_contact_item_height">25dp</dimen>
+    <dimen name="phone_contact_item_name_height">30dp</dimen>
+    <dimen name="list_item_height">80dp</dimen>
+    <dimen name="splash_text_size">20sp</dimen>
+    <dimen name="dailog_title_size">18sp</dimen>
+    <dimen name="dailog_sub_title_size">15sp</dimen>
+    <dimen name="screen_edit_margin">10dp</dimen>
+    <dimen name="login_subtitle">15dp</dimen>
+    <dimen name="login_tc">15dp</dimen>
+    <dimen name="login_edit">15sp</dimen>
+    <dimen name="dailog_margin_left_right">5dp</dimen>
+    <dimen name="title_txt_find_friend">22dp</dimen>
+    <dimen name="padding_no_favorite_bottom_text">20dp</dimen>
+    <dimen name="margin_no_favorite_center_image">20dp</dimen>
+    <dimen name="send_message_text_size">65dp</dimen>
+    <dimen name="screen_logo_top_margin">8dp</dimen>
+    <dimen name="photo_contact_image_size">54dp</dimen>
+    <dimen name="photo_contact_image_size_margin">3dp</dimen>
+    <dimen name="alert_dailog_text_item_size">25sp</dimen>
+    <dimen name="forget_text_padding">15dp</dimen>
+    <dimen name="forget_text_padding_left_right">35dp</dimen>
+
+</resources>

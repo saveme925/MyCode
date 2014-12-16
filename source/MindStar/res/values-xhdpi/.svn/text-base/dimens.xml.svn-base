@@ -1,0 +1,18 @@
+<resources>
+
+    <dimen name="inner_image_width">99dp</dimen>
+    <dimen name="inner_image_height">112dp</dimen>
+    <dimen name="outer_image_width">120dp</dimen>
+    <dimen name="outer_image_height">150dp</dimen>
+    <dimen name="layout_width">139dp</dimen>
+    <dimen name="layout_height">124dp</dimen>
+    <dimen name="outer_profile_image_width">120dp</dimen>
+    <dimen name="outer_profile_image_height">150dp</dimen>
+    <dimen name="profile_img_width">99dp</dimen>
+    <dimen name="profile_img_height">112dp</dimen>
+    <dimen name="outer_profile_small_image_width">90dp</dimen>
+    <dimen name="outer_profile_small_image_height">110dp</dimen>
+    <dimen name="profile_img_small_width">71dp</dimen>
+    <dimen name="profile_img_small_height">82dp</dimen>
+
+</resources>

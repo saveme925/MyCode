@@ -1,0 +1,305 @@
+package com.moneytransfer.library.util;
+
+import java.util.Observable;
+import java.util.Observer;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
+import com.moneytransfer.R;
+import com.moneytransfer.activity.BaseActivity;
+import com.moneytransfer.library.api.APIException;
+import com.moneytransfer.library.api.ApiCall;
+import com.moneytransfer.library.api.Session;
+import com.moneytransfer.library.api.calls.BranchOpen;
+import com.moneytransfer.library.api.calls.CreateTransferCall;
+import com.moneytransfer.library.api.calls.Location;
+import com.moneytransfer.library.api.calls.Login;
+import com.moneytransfer.library.api.calls.TransferAmoutFee;
+import com.moneytransfer.library.util.Constants.TASK_TYPES;
+import com.moneytransfer.network.HttpConnectionProvider;
+
+public class EventHandler extends Observable {
+	/** String to contain the result of the api calls */
+	private Object mResult;
+	/** type of the request */
+	private int mType;
+
+	/** to check whether to the error dialogs or not */
+	private boolean mShowErrorPopups = true;
+	/**
+	 * BaseActivity instance of the current activity that is derived from the
+	 * BaseActivty
+	 */
+	private Observer mObserver;
+	/** */
+	private Context mContext;
+	/** */
+	private String method;
+	private boolean checkStatus;
+
+	public boolean isProgessCancelled;
+
+	/**
+	 * @param user_name
+	 * @param password
+	 * @param SHA1
+	 * @param timeStamp
+	 * @param context
+	 */
+	public void doLogin(String user_name, String password, BaseActivity context) {
+		addObserver(context);
+		mObserver = context;
+		mContext = context;
+		mType = TASK_TYPES.LOGIN;
+		method = Constants.HTTP_METHODS.GET;
+		checkStatus = true;
+		Login call = new Login(context, user_name, password);
+		ApiTask get = new ApiTask();
+		get.execute(call);
+	}
+	
+	
+	public void getTransferAmountFee(String transferAmount,
+			BaseActivity context) {
+		
+		addObserver(context);
+		mObserver = context;
+		mContext = context;
+		mType = TASK_TYPES.TRANSFER_AMOUNT_FEE;
+		method = Constants.HTTP_METHODS.GET;
+		checkStatus = true;
+		TransferAmoutFee call = new TransferAmoutFee(context, transferAmount);
+		ApiTask get = new ApiTask();
+		get.execute(call);
+		
+		
+	}
+	
+
+	public void isOpenBranch(long branchId, BaseActivity context) {
+		addObserver(context);
+		mObserver = context;
+		mContext = context;
+		mType = TASK_TYPES.IS_BRANCH_OPEN_TASK;
+		method = Constants.HTTP_METHODS.GET;
+		checkStatus = true;
+		BranchOpen call = new BranchOpen(context, branchId);
+		ApiTask get = new ApiTask();
+		get.execute(call);
+	}
+
+	public void fetchLocations(BaseActivity context) {
+		addObserver(context);
+		mObserver = context;
+		mContext = context;
+		mType = TASK_TYPES.FETCH_LOCATION;
+		method = Constants.HTTP_METHODS.GET;
+		checkStatus = true;
+		Location call = new Location(context);
+		ApiTask get = new ApiTask();
+		get.execute(call);
+	}
+
+	/**
+	 * @param context
+	 * @param obj
+	 */
+	public void doCreateTransfer(BaseActivity context,Object obj) {
+		addObserver(context);
+		mObserver = context;
+		mContext = context;
+		mType = TASK_TYPES.CREATE_TRANSFER;
+		method = Constants.HTTP_METHODS.POST;
+		checkStatus = true;
+		CreateTransferCall call = new CreateTransferCall(context,obj);
+		ApiTask get = new ApiTask();
+		get.execute(call);
+
+	}
+
+	/**
+	 * Method is to notify the observer as the request done successfully
+	 */
+	public void resultSet() {
+		if (isProgessCancelled) {
+			// Notify observers of change
+			setChanged();
+			notifyObservers();
+			deleteObserver(mObserver);
+			// mContext = null;
+		} else {
+			resultSet();
+		}
+	}
+
+	/**
+	 * @return the result
+	 */
+	public Object getResult() {
+		return mResult;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return mType;
+	}
+
+	/**
+	 * AsyncTask to get the image information and load the images to the grid
+	 * 
+	 * @author Manmohan.Soni
+	 * 
+	 */
+	private class ApiTask extends AsyncTask<ApiCall, Void, Object> {
+		/**
+		 * Progress Dialog for the showing indicator if any background process
+		 * is working
+		 */
+		private ProgressDialog mProgressDialog = null;
+
+		/**
+		 * Method to show progress dialog
+		 * 
+		 * @param messageToShow
+		 *            : Text you want to show on the dialog
+		 * @param context
+		 *            : Context of current class
+		 */
+		public void showProgressDialog(String messageToShow, Context context) {
+			// Progress dialog initialization
+			if (mProgressDialog == null) {
+				mProgressDialog = new ProgressDialog(context);
+				mProgressDialog.setCancelable(false);
+				mProgressDialog.setIndeterminate(false);
+			}
+			mProgressDialog.setMessage(messageToShow);
+			mProgressDialog.show();
+		}
+
+		/**
+		 * Method to cancel progress dialog
+		 */
+		public void cancelProgrssDialog() {
+			if (mProgressDialog != null) {
+				// mProgressDialog.cancel();
+				mProgressDialog.dismiss();
+				isProgessCancelled = true;
+			}
+			mProgressDialog = null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see android.os.AsyncTask#onPreExecute()
+		 */
+		@Override
+		protected void onPreExecute() {
+			showProgressDialog(mContext.getString(R.string.waiting_string),
+					mContext);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Object doInBackground(ApiCall... params) {
+			try {
+				ApiCall apiCall = params[0];
+				Session session = new Session();
+				HttpConnectionProvider httpConnectionProvider = new HttpConnectionProvider();
+				httpConnectionProvider.setHttpMethod(method);
+				httpConnectionProvider.setCheckStaus(checkStatus);
+				session.invoke(apiCall, httpConnectionProvider);
+				return apiCall.getResult();
+			} catch (Exception exception) {
+				return exception;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			cancelProgrssDialog();
+
+			if (result != null) {
+				/** If an error come from the server */
+				if (result instanceof APIException) {
+					String code = ((APIException) result).getMessage();
+					/**
+					 * If code is not null, means the error is defined by server
+					 * for example: email not found
+					 */
+					if (code != null) {
+						try {
+							if (mShowErrorPopups) {
+								Utility.getAlertDialog(
+										mContext,
+										mContext.getString(R.string.moneytransfer_alert),
+										code
+										/*
+										 * mContext.getString(Integer
+										 * .parseInt(ErrorExplanations
+										 * .get(code)))
+										 */, mContext.getString(R.string.ok))
+										.show();
+							} else {
+								mResult = result;
+							}
+						} catch (NumberFormatException e) {
+							e.printStackTrace();
+							Toast.makeText(mContext,
+									"code not handled. code :" + code,
+									Toast.LENGTH_LONG).show();
+						}
+					}
+					/**
+					 * If code is null, means any exception occurred that is
+					 * caused due to some connection failure or any other reason
+					 * for example JsonException, IllegalArgumentException and
+					 * no error message is coming from the server.
+					 */
+					else {
+						if (mShowErrorPopups) {
+							Utility.getAlertDialog(
+									mContext,
+									mContext.getString(R.string.moneytransfer_alert),
+									mContext.getString(R.string.connection_error),
+									mContext.getString(R.string.ok)).show();
+						} else {
+							mResult = result;
+						}
+					}
+
+				}
+				/** If any other unexpected exception occurred */
+				else if (result instanceof Exception) {
+					if (mShowErrorPopups) {
+						Utility.getAlertDialog(
+								mContext,
+								mContext.getString(R.string.moneytransfer_alert),
+								mContext.getString(R.string.connection_error),
+								"Ok").show();
+					} else {
+						mResult = result;
+					}
+				}/**
+				 * Here the request is successful, if the result is sent by
+				 * server then result will be data else the result will be null
+				 */
+				else {
+					mResult = result;
+				}
+
+			}
+
+			resultSet();
+			super.onPostExecute(result);
+		}
+	}
+
+	
+
+}

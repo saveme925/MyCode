@@ -1,0 +1,97 @@
+package com.moneytransfer.library.util;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.moneytransfer.library.util.Constants.INTENT_CONSTANTS;
+import com.mps.transfers.domain.model.views.Town;
+
+/**
+ * Class is to save and retrive the data to the preference store
+ * 
+ * @author Manmohan.Soni
+ * 
+ */
+public class SharedPrefrence {
+	private static final String PREF_USER_INFO = "userinfo";
+	private static final String PREF_SETTING_INFO = "settinginfo";
+
+	private interface PREF_KEYS {
+		final String PROFILE_ID = "PROFILE_ID";
+
+	}
+
+	public static void saveUsername(Context context, String profileName) {
+		SharedPreferences info = context.getSharedPreferences(PREF_USER_INFO,
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = info.edit();
+		editor.putString(PREF_KEYS.PROFILE_ID, profileName);
+		editor.commit();
+	}
+
+	public static String getUserName(Context context) {
+		SharedPreferences info = context.getSharedPreferences(PREF_USER_INFO,
+				Context.MODE_PRIVATE);
+		return info.getString(PREF_KEYS.PROFILE_ID, "");
+
+	}
+
+	public static void saveSettingState(Context context, String string) {
+
+		SharedPreferences info = context.getSharedPreferences(PREF_USER_INFO,
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = info.edit();
+		editor.putString(PREF_SETTING_INFO, string);
+		editor.commit();
+
+	}
+
+	public static String getSettingState(Context context) {
+
+		SharedPreferences info = context.getSharedPreferences(PREF_USER_INFO,
+				Context.MODE_PRIVATE);
+		return info.getString(PREF_SETTING_INFO, "");
+
+	}
+
+	 /**
+	  * Method to save user data for auto login
+	  * 
+	  * @param context
+	  * @param townList
+	  */
+	 public static void saveList(Context context, ArrayList<Town> townList) {
+	  try {
+	   SharedPreferences info = context.getSharedPreferences(
+	     PREF_USER_INFO, Context.MODE_PRIVATE);
+	   SharedPreferences.Editor editor = info.edit();
+	   editor.putString(INTENT_CONSTANTS.TOWN_LIST,
+	     ObjectSerializer.serialize(townList));
+	   editor.commit();
+	  } catch (Exception e) {
+	   e.printStackTrace();
+	  }
+	 }
+
+	 /**
+	  * @param context
+	  * @return
+	  */
+	 public static /*Town[]*/ArrayList<Town> getList(Context context) {
+	  SharedPreferences info = context.getSharedPreferences(PREF_USER_INFO,
+	    Context.MODE_PRIVATE);
+	  try {
+	   return  (ArrayList<Town>) /*(Town[])*/ ObjectSerializer.deserialize(info
+	     .getString(INTENT_CONSTANTS.TOWN_LIST, ObjectSerializer
+	       .serialize(new ArrayList<Town>())));
+	  } catch (IOException e) {
+	     e.printStackTrace();
+	  }
+	  return null;
+	 }
+	
+
+}

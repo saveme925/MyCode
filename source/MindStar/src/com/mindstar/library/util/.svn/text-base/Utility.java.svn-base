@@ -1,0 +1,813 @@
+package com.moneytransfer.library.util;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.util.Base64;
+import android.util.FloatMath;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
+/**
+ * Class to provide utility methods
+ * 
+ * @author Manmohan.Soni
+ * 
+ */
+public class Utility {
+
+	/**
+	 * Method to check the status of network
+	 * 
+	 * @param context
+	 * @return true if network available else false
+	 */
+	public static boolean checkNetworkStatus(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo info = connectivityManager
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		boolean wifi = false;
+		if (info != null)
+			wifi = info.isConnected();
+
+		info = connectivityManager
+				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		boolean sim_nw = false;
+		if (info != null)
+			sim_nw = info.isConnected();
+
+		if (wifi || sim_nw) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to check count is in bound or not if in bound then return count or
+	 * Max value+.
+	 * 
+	 * @param value
+	 * @return e.g. if Max = 99999, then count if less than it else 99999+
+	 */
+	public static String getCountInBounds(String value) {
+		try {
+			int intValue = Integer.parseInt(value.trim());
+			int MAX_LENGTH = 99999;
+			if (intValue > MAX_LENGTH) {
+				return MAX_LENGTH + "+";
+			} else {
+				return String.valueOf(intValue);
+			}
+
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public static Location locArray[] = new Location[10];
+	/**
+	 * 
+	 */
+	public static int locCountr = 0;
+
+	/**
+	 * @param first
+	 * @param last
+	 * @return
+	 */
+	public static int getDiffYears(Date last, Date first) {
+		Calendar a = getCalendar(first);
+		Calendar b = getCalendar(last);
+		int diff = b.get(Calendar.YEAR) - a.get(Calendar.YEAR);
+		if (a.get(Calendar.MONTH) > b.get(Calendar.MONTH)
+				|| (a.get(Calendar.MONTH) == b.get(Calendar.MONTH) && a
+						.get(Calendar.DATE) > b.get(Calendar.DATE))) {
+			diff--;
+		}
+		return diff;
+	}
+
+	/** filter is used to set text only to the edit text */
+	public static InputFilter filter = new InputFilter() {
+		public CharSequence filter(CharSequence source, int start, int end,
+				Spanned dest, int dstart, int dend) {
+			for (int i = start; i < end; i++) {
+				if (!Character.isLetter(source.charAt(i))
+						&& !Character.isSpaceChar(source.charAt(i))) {
+					return "";
+				}
+			}
+			return null;
+		}
+	};
+
+	/**
+	 * 
+	 */
+	public static InputFilter filterSpace = new InputFilter() {
+		public CharSequence filter(CharSequence source, int start, int end,
+				Spanned dest, int dstart, int dend) {
+			for (int i = start; i < end; i++) {
+				if (!Character.isSpaceChar(source.charAt(i))) {
+					return "";
+				}
+			}
+			return null;
+		}
+	};
+
+	/** filter is used to set text only to the edit text */
+	public static InputFilter profileNameFilter = new InputFilter() {
+		public CharSequence filter(CharSequence source, int start, int end,
+				Spanned dest, int dstart, int dend) {
+			char a[] = { '(', ')', ',', ';', '<', '>', '&', '%' };
+			for (int i = start; i < end; i++) {
+				if (new String(a).contains(String.valueOf(source.charAt(i)))) {
+					return "";
+				}
+			}
+			return null;
+		}
+	};
+
+	/**
+	 * @param date
+	 * @return
+	 */
+	public static Calendar getCalendar(Date date) {
+		Calendar cal = Calendar.getInstance(Locale.US);
+		cal.setTime(date);
+		return cal;
+	}
+
+	/***
+	 * Method to get the int value of the error code
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public static int getIntegerFromErrorCode(String code) {
+		return Integer.parseInt(ErrorExplanations.get(code));
+	};
+
+	/***
+	 * Method to get the int value of the error code
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public static int getIntegerFromString(String string) {
+		int i = -1;
+		try {
+			i = string != null ? Integer.parseInt(string) : -1;
+
+		} catch (NumberFormatException e) {
+
+		}
+		return i;
+	};
+
+	/**
+	 * Method to check the validity of email.
+	 * 
+	 * @param emailString
+	 * @return true if pattern matched
+	 */
+	/*
+	 * public static boolean isValidEmail(String emailString) { String email =
+	 * emailString.trim();
+	 * 
+	 * int indexOfAt = email.indexOf("@"); int lastofAt =
+	 * email.lastIndexOf('@'); int indexOfdot = email.indexOf("."); int
+	 * lastOfdot = email.lastIndexOf('.'); int doubledotindex =
+	 * email.indexOf("..");
+	 * 
+	 * if (emailString.indexOf(" ") != -1) { return false; } else if (indexOfAt
+	 * <= 0 || doubledotindex > 0) { return false; } else { if (indexOfdot ==
+	 * -1) { return false; } else if (lastOfdot < indexOfAt) { return false; }
+	 * else if (!(lastOfdot > indexOfAt + 1)) { return false; } else if
+	 * (lastOfdot == email.length() - 1) { return false; } else if (indexOfAt !=
+	 * lastofAt) { return false; } else { return true; } } }
+	 */
+
+	/**
+	 * Method to get the orientation of the activity
+	 * 
+	 * @param activity
+	 *            current activity
+	 * @return orientation
+	 */
+	public static int getscrOrientation(Activity activity) {
+		Display getOrient = activity.getWindowManager().getDefaultDisplay();
+		int orientation = getOrient.getOrientation();
+		return orientation; // return value 0 is portrait and 1 & 3 is Landscape
+		// Mode
+	}
+
+	/**
+	 * Method to get device id of the phone
+	 * 
+	 * @param context
+	 *            context of current activity
+	 * @return device id
+	 */
+	public static String getUniqueId(Context context) {
+		// TODO Auto-generated method stub
+		TelephonyManager tm = (TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		// Debug.logMsg("Unique id of mobile is =" + tm.getDeviceId());
+		return tm.getDeviceId();
+
+	}
+
+	/**
+	 * Method to get a single button dialog
+	 * 
+	 * @param context
+	 *            of the current activity
+	 * @param data
+	 *            Message of the dialog
+	 * @param positiveText
+	 *            name of button
+	 * @return AlertDialog
+	 */
+	public static AlertDialog getAlertDialog(Context context, String data,
+			String positiveText) {
+
+		TextView myMsg = new TextView(context);
+		myMsg.setText(data);
+
+		myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setView(myMsg)
+				// builder.setMessage(data)
+
+				.setCancelable(true)
+				.setNegativeButton(positiveText,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+		AlertDialog alertDialogBox = builder.create();
+		return alertDialogBox;
+	}
+
+	/**
+	 * Method to get a dialog with title, message and single button
+	 * 
+	 * @param context
+	 * @param title
+	 * @param message
+	 * @param positiveText
+	 * @return AlertDialog
+	 */
+	public static AlertDialog getAlertDialoguUser(final Activity context,
+			String title, String message, String positiveText) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				context.getApplicationContext());
+		/* builder. */builder
+				.setMessage(message)
+				.setTitle(title)
+				.setCancelable(true)
+				.setNegativeButton(positiveText,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								try {
+									dialog.cancel();
+									context.finish();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						});
+		AlertDialog alertDialogBox = builder.create();
+
+		return alertDialogBox;
+	}
+
+	/**
+	 * Method to get dialog with yes, no button
+	 * 
+	 * @param context
+	 * @param data
+	 * @param positiveText
+	 * @param negativeText
+	 * @param listener
+	 * @return Dialog
+	 */
+	public static Dialog getYesNoDialog(Activity context, String data,
+			String positiveText, String negativeText,
+			DialogInterface.OnClickListener listener) {
+		AlertDialog alertDialogBox = new AlertDialog.Builder(context)
+				.setMessage(data).setPositiveButton(positiveText, listener)
+				.setNegativeButton(negativeText, listener).create();
+
+		return alertDialogBox;
+	}
+
+	/**
+	 * @param context
+	 * @param data
+	 * @param positiveText
+	 * @param negativeText
+	 * @param listener
+	 * @return
+	 */
+	public static Dialog getDialog(Activity context, String data,
+			String positiveText, String negativeText,
+			DialogInterface.OnClickListener listener) {
+		AlertDialog alertDialogBox = new AlertDialog.Builder(context)
+				.setMessage(data).setPositiveButton(positiveText, listener)
+				.setNegativeButton(negativeText, listener).create();
+		return alertDialogBox;
+	}
+
+	/**
+	 * Method to get distance between two location
+	 * 
+	 * @param from
+	 * @param to
+	 * @return distance
+	 */
+	public static int getDistanceBetween(Location from, Location to) {
+		int distance = 0;
+
+		distance = (int) (from.distanceTo(to) / 1000);
+
+		from = null;
+		to = null;
+
+		return distance;
+	}
+
+	/**
+	 * Method to get distance between two geo points
+	 * 
+	 * @param lat_a
+	 * @param lng_a
+	 * @param lat_b
+	 * @param lng_b
+	 * @return distance
+	 */
+	static public String getDistance(float lat_a, float lng_a, float lat_b,
+			float lng_b) {
+
+		float v1 = 0.0f;
+
+		int i1 = Float.compare(lat_b, v1);
+		int i2 = Float.compare(lng_b, v1);
+
+		if (!(i1 == 0 && i2 == 0)) {
+
+			float pk = (float) (180 / Math.PI);
+			float a1 = lat_a / pk;
+			float a2 = lng_a / pk;
+			float b1 = lat_b / pk;
+			float b2 = lng_b / pk;
+
+			float t1 = FloatMath.cos(a1) * FloatMath.cos(a2)
+					* FloatMath.cos(b1) * FloatMath.cos(b2);
+			float t2 = FloatMath.cos(a1) * FloatMath.sin(a2)
+					* FloatMath.cos(b1) * FloatMath.sin(b2);
+			float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
+			double tt = Math.acos(t1 + t2 + t3);
+			DecimalFormat df = new DecimalFormat("#.##");
+			return String.valueOf(df.format(6366000 * tt / 1000));
+
+		} else {
+			return "0";
+		}
+	}
+
+	/**
+	 * Method is to check whether the activity is on top or not
+	 * 
+	 * @param m_Context
+	 * @return true if activity on top
+	 */
+	public static boolean isAppOnTop(Context m_Context) {
+		final ActivityManager activityManager = (ActivityManager) m_Context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+
+		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+		if (!tasks.isEmpty()) {
+			ComponentName _topActivity = tasks.get(0).topActivity;
+
+			if (_topActivity.getPackageName()
+					.equals(m_Context.getPackageName())) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Method to store the image in the cache
+	 * 
+	 * @param bitmap
+	 * @param context
+	 */
+	public static void saveToCache(Bitmap bitmap, Context context) {
+		if (bitmap == null || bitmap.isRecycled()) {
+			return;
+		}
+		File cacheFile = new File(context.getCacheDir(), "cached.jpg");
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(cacheFile);
+		} catch (FileNotFoundException e) {
+			// do nothing
+		} finally {
+			if (fos != null) {
+				bitmap.compress(CompressFormat.JPEG, 100, fos);
+				try {
+					fos.flush();
+					fos.close();
+				} catch (IOException e) {
+					// Do nothing
+				}
+			}
+		}
+	}
+
+	/**
+	 * Method to store the image in the cache
+	 * 
+	 * @param m_Context
+	 * @param activity
+	 * @return true if activity
+	 */
+	public static boolean isActivityOnTop(Context m_Context, String activity) {
+		final ActivityManager activityManager = (ActivityManager) m_Context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+
+		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+		if (!tasks.isEmpty()) {
+			ComponentName _topActivity = tasks.get(0).topActivity;
+
+			if (_topActivity.getClassName().equalsIgnoreCase(activity)) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Method to check whether the application is running or not
+	 * 
+	 * @param m_Context
+	 * @return true if running
+	 */
+	public static boolean isAppRunning(Context m_Context) {
+		final ActivityManager activityManager = (ActivityManager) m_Context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+
+		List<RunningTaskInfo> tasks = activityManager.getRunningTasks(100);
+		if (!tasks.isEmpty()) {
+			int i = 0;
+			for (i = 0; i < tasks.size(); i++) {
+				ComponentName _topActivity = tasks.get(i).topActivity;
+
+				if (_topActivity.getPackageName().equals(
+						m_Context.getPackageName())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Method to check whether the memory card present or not
+	 * 
+	 * @return true if memory card present in the phone
+	 */
+	public static boolean isSdCardPresent() {
+		return android.os.Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED);
+
+	}
+
+	/**
+	 * Method to print a string of console
+	 * 
+	 * @param text
+	 */
+	public static void print(String text) {
+		// System.out.println("************" + text + "***********");
+	}
+
+	/**
+	 * Method to check email validation
+	 * 
+	 * @param target
+	 * @return true if email is valid
+	 */
+	public final static boolean isValidEmail(CharSequence target) {
+		try {
+			return android.util.Patterns.EMAIL_ADDRESS.matcher(target)
+					.matches();
+		} catch (Exception exception) {
+			return false;
+		}
+	}
+
+	/**
+	 * MEthod to encode String in Base 64 format
+	 * 
+	 * @param dataToEncode
+	 * @return encoded data
+	 */
+	public static String encodeString(String dataToEncode) {
+		try {
+			dataToEncode = new String(Base64.encode(dataToEncode.getBytes(),
+					Base64.DEFAULT));
+		} catch (Exception e) {
+			print("Exception encodeString::" + e.getMessage());
+		}
+		print(dataToEncode);
+		return dataToEncode;
+	}
+
+	/**
+	 * MEthod to decode String
+	 * 
+	 * @param dataToDecode
+	 * @return decoded data
+	 */
+	public static String decodeString(String dataToDecode) {
+		try {
+			dataToDecode = new String(Base64.decode(dataToDecode.getBytes(),
+					Base64.DEFAULT));
+		} catch (Exception e) {
+			print("Exception encodeString::" + e.getMessage());
+		}
+		return dataToDecode;
+	}
+
+	/**
+	 * Method is to decode the html string to simple string
+	 * 
+	 * @param string
+	 * @return string
+	 */
+	/*
+	 * public static String decodeHtml(String string) { return
+	 * Html.fromHtml(string).toString(); }
+	 */
+	/**
+	 * Show Alert Dialog
+	 * 
+	 * @param context
+	 * @param titleId
+	 * @param messageId
+	 * @param positiveButtontxt
+	 * @param positiveListener
+	 * @param negativeButtontxt
+	 * @param negativeListener
+	 */
+	public static void showAlert(Context context, int titleId, int messageId,
+			CharSequence positiveButtontxt,
+			DialogInterface.OnClickListener positiveListener,
+			CharSequence negativeButtontxt,
+			DialogInterface.OnClickListener negativeListener) {
+		Dialog dlg = new AlertDialog.Builder(context)
+				// .setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(titleId)
+				.setPositiveButton(positiveButtontxt, positiveListener)
+				.setNegativeButton(negativeButtontxt, negativeListener)
+				.setMessage(messageId).setCancelable(false).create();
+
+		dlg.show();
+	}
+
+	/**
+	 * Method to get a dialog with title, message and two buttons
+	 * 
+	 * @param context
+	 * @param title
+	 * @param message
+	 * @param positiveText
+	 * @return AlertDialog
+	 */
+	public static AlertDialog getAlertDialog(Context context, String title,
+			String message, String positiveText) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		/* builder. */builder
+				.setMessage(message)
+				.setTitle(title)
+				.setCancelable(true)
+				.setNegativeButton(positiveText,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+		AlertDialog alertDialogBox = builder.create();
+
+		return alertDialogBox;
+	}
+
+	/**
+	 * Show Alert Dialog
+	 * 
+	 * @param context
+	 * @param titleId
+	 * @param messageId
+	 * @param positiveButtontxt
+	 * @param positiveListener
+	 * @param negativeButtontxt
+	 * @param negativeListener
+	 */
+	public static void showAlert(Context context, int titleId, int messageId,
+			CharSequence positiveButtontxt,
+			DialogInterface.OnClickListener positiveListener,
+			CharSequence negativeButtontxt,
+			DialogInterface.OnClickListener negativeListener,
+			boolean isCancelable) {
+		Dialog dlg = new AlertDialog.Builder(context)
+				// .setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(titleId)
+				.setPositiveButton(positiveButtontxt, positiveListener)
+				.setNegativeButton(negativeButtontxt, negativeListener)
+				.setMessage(messageId).setCancelable(isCancelable).create();
+
+		dlg.show();
+	}
+
+	/**
+	 * Show Alert Dialog
+	 * 
+	 * @param context
+	 * @param titleId
+	 * @param messageId
+	 * @param positiveButtontxt
+	 * @param positiveListener
+	 * @param negativeButtontxt
+	 * @param negativeListener
+	 */
+	public static void showAlert(Context context, int titleId, int messageId,
+			CharSequence positiveButtontxt,
+			DialogInterface.OnClickListener positiveListener) {
+		Dialog dlg = new AlertDialog.Builder(context)
+				// .setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle(titleId)
+				.setPositiveButton(positiveButtontxt, positiveListener)
+				// .setNeutralButton(positiveButtontxt, positiveListener)
+				.setMessage(messageId).setCancelable(false).create();
+
+		dlg.show();
+	}
+
+	/***
+	 * Method to check whether the login is illegal or not
+	 * 
+	 * @param code
+	 * @return true if the user is login illegally
+	 */
+	public static boolean isIlligalLoginCode(String code) {
+		if (code.equals("E_USER_BLOCKED") || code.equals("USER_BLOCKED")
+				|| code.equals("USER_LOGGED_OUT")
+				|| code.equals("USER_MULTIPLE_LOGIN")
+				|| code.equals("USER_DOES_NOT_EXIST")
+				|| code.equals("PROFILE_ID_BLANK")) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Method to check network availability
+	 * 
+	 * @param context
+	 * @return status
+	 */
+	public static boolean isNetworkAvailable(Context context) {
+		boolean status = true/* false */;
+		/*
+		 * ConnectivityManager connectivityManager = (ConnectivityManager)
+		 * context .getSystemService(Context.CONNECTIVITY_SERVICE); NetworkInfo
+		 * activeNetworkInfo = connectivityManager .getActiveNetworkInfo(); if
+		 * (activeNetworkInfo != null) { status =
+		 * activeNetworkInfo.isAvailable(); }
+		 */
+		return status;
+	}
+
+	/**
+	 * Get App Running state
+	 * 
+	 * @param context
+	 * @return True if app running else false
+	 */
+	public static boolean getStiggleRunningStatus(Context context) {
+		ActivityManager activityManager = (ActivityManager) context
+				.getSystemService(context.ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> procInfos = activityManager
+				.getRunningAppProcesses();
+		int totalProcess = procInfos.size();
+		for (int i = 0; i < totalProcess; i++) {
+			if (procInfos.get(i).processName.equals("com.android.stiggle")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * to start the service
+	 * 
+	 * @param context
+	 */
+	public static void startService(Context context) {
+		ConsoleLogProvider.install();
+		Intent serviceIntent = new Intent();
+		serviceIntent.setAction("com.stiggle.location.LOCATION_SERVICE");
+		context.startService(serviceIntent);
+	}
+
+	/**
+	 * @param distance
+	 * @return
+	 */
+	public static double getDoubleFromString(String string) {
+		double doubleValue = 0.0;
+		try {
+			doubleValue = Double.parseDouble(string);
+			return doubleValue;
+		} catch (Exception e) {
+			return doubleValue;
+		}
+
+	}
+
+	/**
+	 * @param string
+	 * @param distance
+	 * @return
+	 */
+	public static long getLongFromString(String string) {
+		long doubleValue = 0;
+		try {
+			doubleValue = Long.parseLong(string);
+		} catch (Exception e) {
+
+		}
+		return doubleValue;
+	}
+
+	public static void hideKeyboard(Context pContext, View v) {
+
+		InputMethodManager imm = (InputMethodManager) pContext
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.moneytransfer.library.exception;
+
+
+/**
+ * Mobile Payment Solutions Limited User: marcus Date: Jun 3, 2010 Time: 4:04:54 PM Package: com.mps.web.transfers
+ * Purpose:
+ */
+public class TransferFeeException extends BaseException {
+
+	public TransferFeeException(String s) {
+		super(s);
+	}
+}

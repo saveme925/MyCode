@@ -1,0 +1,21 @@
+package com.moneytransfer.library.exception;
+
+import org.simpleframework.xml.Default;
+import org.simpleframework.xml.DefaultType;
+import org.simpleframework.xml.Root;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: david.mulenga
+ * Date: Jul 15, 2011
+ * Time: 10:31:15 AM
+ * To change this template use File | Settings | File Templates.
+ */
+@Root(name = "transfer")
+@Default(DefaultType.FIELD)
+public class ApplicationContextException extends BaseException {
+    public ApplicationContextException(String s)
+    {
+        super(s);
+    }
+}

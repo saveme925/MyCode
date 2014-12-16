@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/MoneyTransfer/!svn/ver/28/Android/source/trunk/src/com/moneytransfer/library/api/calls
+END
+BranchOpen.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/api/calls/BranchOpen.java
+END
+CreateTransferCall.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/api/calls/CreateTransferCall.java
+END
+AndroidResponseClass.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/api/calls/AndroidResponseClass.java
+END
+TownResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/api/calls/TownResponse.java
+END
+LoginResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/api/calls/LoginResponse.java
+END
+Location.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/api/calls/Location.java
+END
+Login.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/api/calls/Login.java
+END
+BaseResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/api/calls/BaseResponse.java
+END
+TransferAmoutFee.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/MoneyTransfer/!svn/ver/28/Android/source/trunk/src/com/moneytransfer/library/api/calls/TransferAmoutFee.java
+END

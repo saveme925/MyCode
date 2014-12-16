@@ -1,0 +1,130 @@
+package com.moneytransfer.library.api.calls;
+
+import java.io.Reader;
+import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+import org.simpleframework.xml.transform.Matcher;
+import org.simpleframework.xml.transform.Transform;
+
+import android.content.Context;
+
+import com.moneytransfer.activity.BaseActivity;
+import com.moneytransfer.library.api.APIException;
+import com.moneytransfer.library.api.ApiCall;
+import com.moneytransfer.library.util.WizardStore;
+import com.mps.transfers.domain.model.views.ExpressTransfer;
+
+public class TransferAmoutFee extends ApiCall {
+
+	/** context of login activity */
+	private Context mcontext;
+	//private LoginResponse user;
+	private String totAmount;
+	private Boolean isFee;
+
+	/**
+	 * @param context
+	 * @param user_name
+	 * @param password
+	 * @param sHA1
+	 * @param timeStamp
+	 */
+	public TransferAmoutFee(BaseActivity context, String totAmount) {
+		this.mcontext = context;
+		this.totAmount = totAmount;
+
+	}
+
+	/**
+	 * Method is used to set the parameter to JSON object
+	 * 
+	 * @return return the JSON object for parameter passing
+	 */
+	public byte[] getRequestObject() {
+		return null;
+	}
+
+	// http://213.193.39.28:56782/bpt/resources/android/fee/5000
+
+	/** method is used to get the path of server */
+	@Override
+	public String getPath() {
+		return "resources/android/fee" + "/" + totAmount;
+	}
+
+	/** Method is used to handle the exception return by server */
+	@Override
+	public APIException parseErrorMessage(JSONObject response)
+			throws APIException, JSONException {
+		return null;
+	}
+
+	/**
+	 * Method is used to parse the JSON data to custom object
+	 * 
+	 * @param response
+	 * @throws APIException
+	 * @throws JSONException
+	 */
+	public void populateFromResponse(String response) throws APIException,
+			JSONException {
+		try {
+			// Serializer serializer = new Persister();
+			final GMTDateTransform transform = new GMTDateTransform();
+			Serializer serializer = new Persister(new Matcher() {
+				@Override
+				public Transform match(Class cls) throws Exception {
+					if (cls == Date.class)
+						return transform;
+					return null;
+				}
+			});
+
+			isFee = true;
+			ExpressTransfer expressTransfer = WizardStore.getInstance()
+					.getExpressTransfer();
+			expressTransfer.setTransferFee(Double.parseDouble(response));
+
+			// Reader reader = new StringReader(response);
+			// user = serializer.read(LoginResponse.class, reader, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/** */
+	@Override
+	public Object getResult() {
+		if (!isFee)
+			return new APIException("ERROR",
+					"Unable to get Fee,Please try again");
+		else
+			return isFee;
+	}
+
+	private static final class GMTDateTransform implements Transform<Date> {
+		ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
+			protected SimpleDateFormat initialValue() {
+				SimpleDateFormat r = new SimpleDateFormat(
+						"yyyy-MM-dd HH:mm:ss.SSS zzz");
+				r.setTimeZone(TimeZone.getTimeZone("GMT"));
+				return r;
+			}
+		};
+
+		public Date read(String source) throws Exception {
+			return sdf.get().parse(source);
+		}
+
+		public String write(Date source) throws Exception {
+			return sdf.get().format(source);
+		}
+	}
+}

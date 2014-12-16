@@ -1,0 +1,5 @@
+package com.moneytransfer.library.util;
+
+public class CustomException extends Exception{
+
+}

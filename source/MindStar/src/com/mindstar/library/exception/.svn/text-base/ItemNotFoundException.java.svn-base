@@ -1,0 +1,14 @@
+package com.moneytransfer.library.exception;
+
+
+/**
+ * Mobile Payment Solutions Ltd. Package: com.mps.transfers.exception User: marcus Date: Apr 8, 2011 Time: 12:36:45 PM
+ */
+public class ItemNotFoundException extends BaseException {
+
+	 public static final int HTTP_ERROR_CODE = 404;
+
+    public ItemNotFoundException(String s) {
+        super(s);
+    }
+}

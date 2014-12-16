@@ -1,0 +1,89 @@
+package com.moneytransfer.library.api.calls;
+
+import java.io.Reader;
+import java.io.StringReader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
+import android.content.Context;
+
+import com.moneytransfer.activity.BaseActivity;
+import com.moneytransfer.library.api.APIException;
+import com.moneytransfer.library.api.ApiCall;
+
+
+public class BranchOpen extends ApiCall {
+	
+	/** context of login activity */
+	private Context mcontext;
+	private String object;
+	private AndroidResponseClass androidResponse;
+	private long branchId;
+
+	/**
+	 * @param context
+	 * @param user_name
+	 * @param password
+	 * @param sHA1
+	 * @param timeStamp
+	 */
+	public BranchOpen(BaseActivity context,long branchId) {
+		this.mcontext = context;
+		this.branchId = branchId;
+		
+		
+	}
+
+	/**
+	 * Method is used to set the parameter to JSON object
+	 * 
+	 * @return return the JSON object for parameter passing
+	 */
+	public byte[] getRequestObject() {
+		return null;
+	}
+
+	/** method is used to get the path of server */
+	@Override
+	public String getPath() {
+		return "resources/android/branch/open"+"/"+branchId;
+	}
+
+	/** Method is used to handle the exception return by server */
+	@Override
+	public APIException parseErrorMessage(JSONObject response)
+			throws APIException, JSONException {
+		return null;
+	}
+
+	/**
+	 * Method is used to parse the JSON data to custom object
+	 * 
+	 * @param response
+	 * @throws APIException
+	 * @throws JSONException
+	 */
+	public void populateFromResponse(String response) throws APIException,
+			JSONException {
+		try {
+			Serializer serializer = new Persister();
+			Reader reader = new StringReader(response);
+			androidResponse = serializer.read(AndroidResponseClass.class, reader, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/** */
+	@Override
+	public Object getResult() {
+		if (androidResponse != null /*&& !androidResponse.success*/ && androidResponse.message != null)
+			return new APIException("ERROR", androidResponse.message);
+		else
+		return androidResponse;
+	}
+
+}

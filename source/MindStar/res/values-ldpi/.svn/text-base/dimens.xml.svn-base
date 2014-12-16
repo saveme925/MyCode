@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <dimen name="text_size_Medium">13sp</dimen>
+    <dimen name="bootm_margin">20dp</dimen>
+    <dimen name="left_margin_userprof_pic">20dp</dimen>
+    <dimen name="left_margin_bs_button">10dp</dimen>
+    <dimen name="left_margin_bs_layout">1dp</dimen>
+    <dimen name="left_margin_add_friend">10dp</dimen>
+    <dimen name="left_margin_list_image">5dp</dimen>
+    <dimen name="text_size_med">20sp</dimen>
+    <dimen name="left_margin_list_image_top">10dp</dimen>
+    <dimen name="left_margin_msg_btn_send">30dp</dimen>
+    <dimen name="left_margin_msg_btn_inbox">10dp</dimen>
+    <dimen name="left_margin_msg_btn_layout_top">20dip</dimen>
+    <dimen name="left_margin_msg_btn_layout_left">5dp</dimen>
+    <dimen name="left_margin_msg_btn_inbox_width">125dp</dimen>
+    <dimen name="margin_distance">5dp</dimen>
+    <!-- Dimensions for the profile pics -->
+    <dimen name="inner_image_width">80dp</dimen>
+    <dimen name="inner_image_height">90dp</dimen>
+    <dimen name="outer_image_width">96dp</dimen>
+    <dimen name="outer_image_height">120dp</dimen>
+    <dimen name="outer_profile_image_width">96dp</dimen>
+    <dimen name="outer_profile_image_height">120dp</dimen>
+    <dimen name="profile_img_width">80dp</dimen>
+    <dimen name="profile_img_height">90dp</dimen>
+    <dimen name="layout_width">75dp</dimen>
+    <dimen name="layout_height">84dp</dimen>
+    <dimen name="outer_profile_small_image_width">70dp</dimen>
+    <dimen name="outer_profile_small_image_height">90dp</dimen>
+    <dimen name="profile_img_small_width">57dp</dimen>
+    <dimen name="profile_img_small_height">66dp</dimen>
+    <dimen name="action_bar_height">36dp</dimen>
+    <dimen name="action_bar_height_separator">27dp</dimen>
+    <dimen name="font_medium">20sp</dimen>
+    <dimen name="font_large">22dp</dimen>
+
+</resources>

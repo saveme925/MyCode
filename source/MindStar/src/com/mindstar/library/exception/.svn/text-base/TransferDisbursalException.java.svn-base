@@ -1,0 +1,12 @@
+package com.moneytransfer.library.exception;
+
+
+/**
+ * Mobile Payment Solutions Ltd. Package: com.mps.transfers.mobile.services User: marcus Date: Apr 30, 2011 Time:
+ * 11:34:06 AM
+ */
+public class TransferDisbursalException extends BaseException {
+	public TransferDisbursalException(String s) {
+		super(s);
+	}
+}

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/network
+END
+NetworkConstant.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/network/NetworkConstant.java
+END
+HttpBaseConnectionProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/network/HttpBaseConnectionProvider.java
+END
+IOUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/network/IOUtil.java
+END

@@ -1,0 +1,150 @@
+package com.moneytransfer.library.util;
+
+import com.moneytransfer.library.util.Constants.WizardConstants;
+import com.mps.transfers.domain.model.views.ExpressTransfer;
+
+/**
+ * @author Sachit
+ *
+ */
+public class WizardStore implements WizardConstants {
+	
+	private static WizardStore _selfInstance	=	null;
+	private ExpressTransfer	   expressTransfer	=	null;	
+	
+	/**
+	 * Private constructor to prevent further instantiation
+	 */
+	private WizardStore() {
+		
+	}
+	
+	//-------------------------------------------------------------------------
+	/**
+	 * Factory method to get the instance of this class. This method ensures 
+	 * that this class will have one and only one instance at any point of
+	 * time. This is the only way to get the instance of this class. No other
+	 * way will be made available to the programmer to instantiate this class.
+	 * 
+	 * @return the object of this class.
+	 */
+	public static WizardStore getInstance() {
+		if(_selfInstance == null) {
+			_selfInstance = new WizardStore();
+		}
+		return _selfInstance;
+	}
+	
+	//-------------------------------------------------------------------------
+	/**
+	 * Method to reset the {@link ExpressTransfer} Object. 
+	 */
+	public void reset() {
+		setExpressTransfer(new ExpressTransfer());
+	}
+	//-------------------------------------------------------------------------
+//	public void addData(Map<String,Object> p_data) {
+//		if(p_data == null || p_data.isEmpty()) {
+//			return;
+//		}
+//		if(p_data.containsKey(transferNumber)) {
+//			setTransferNumber((String)p_data.get(transferNumber));
+//		}
+//		
+//		
+//	}
+//	
+//	//-------------------------------------------------------------------------
+//	/**
+//	 * Method to set the transfer number. 
+//	 * @param p_transfer_number 
+//	 */
+//	public void setTransferNumber(String p_transfer_number) {
+//		expressTransfer.setTransferNumber(p_transfer_number);
+//	}
+//	
+//	//-------------------------------------------------------------------------
+//	/**
+//	 * @param receiverWithID
+//	 */
+//	public void setReceiverWithID(boolean receiverWithID) {
+//        expressTransfer.setReceiverWithID(receiverWithID);
+//    }
+//	
+//	public void setSender(Client senderId) {
+//        this.sender = senderId;
+//    }
+//	
+//	public void setRecipient(Client recipient) {
+//        this.recipient = recipient;
+//    }
+//	
+//	public void setTransferAmount(double transferAmount) {
+//        this.transferAmount = transferAmount;
+//    }
+//	
+//	public void setTransferFee(double transferFee) {
+//        this.transferFee = transferFee;
+//    }
+//	
+//	public void setReceiverTestQuestion(String receiverTestQuestion) {
+//        this.receiverTestQuestion = receiverTestQuestion;
+//    }
+//	
+//	public void setReceiverTestQuestionAnswer(String receiverTestQuestionAnswer) {
+//        this.receiverTestQuestionAnswer = receiverTestQuestionAnswer;
+//    }
+//	
+//	public void setCreatingAgentId(long creatingAgentId) {
+//        this.creatingAgentId = creatingAgentId;
+//    }
+//
+//	public void setDisbursingAgentId(long disbursingAgentId) {
+//        this.disbursingAgentId = disbursingAgentId;
+//    }
+//	
+//	public void setCreationTime(Timestamp creationTime) {
+//        this.creationTime = creationTime;
+//    }
+//
+//	public void setCreationSuccess(boolean creationSuccess) {
+//        this.creationSuccess = creationSuccess;
+//    }
+//	
+//	public void setDisbursed(boolean disbursed) {
+//        this.disbursed = disbursed;
+//    }
+//
+//	public void setSmsSender(boolean smsSender) {
+//        this.smsSender = smsSender;
+//    }
+//	
+//	public void setSmsRecipient(boolean smsRecipient) {
+//        this.smsRecipient = smsRecipient;
+//    }
+//	
+//	public void setCreationTransferReceipt(TransferReceipt creationTransferReceipt) {
+//        this.creationTransferReceipt = creationTransferReceipt;
+//    }
+//	
+//	public void setDisbursementTransferReceipt(TransferReceipt disbursementTransferReceipt) {
+//        this.disbursementTransferReceipt = disbursementTransferReceipt;
+//    }
+//	
+//	 public void setCreationChannel(UserChannel creationChannel) {
+//	        this.creationChannel = creationChannel;
+//	 }
+//	
+//    public void setDisbursalChannel(UserChannel disbursalChannel) {
+//        this.disbursalChannel = disbursalChannel;
+//    }
+
+	public void setExpressTransfer(ExpressTransfer expressTransfer) {
+		this.expressTransfer = expressTransfer;
+	}
+
+	public ExpressTransfer getExpressTransfer() {
+		return expressTransfer;
+	}
+
+}

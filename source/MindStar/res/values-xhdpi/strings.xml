@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 
+    <string-array name="left_menu_name">
+        <item>Home</item>
+        <item>My Task</item>
+        <item>Pivate Messages</item>
+        <item>Recent Activity</item>
+        <item>My PortFolios</item>
+        <item>Settings</item>
+        <item>Logout</item>
+    </string-array>
+ <string name="tracking_id">UA-49321920-2</string>
+    <string name="properties">SlidingMenu Properties</string>
+    <string name="general">General</string>
+    <string name="download">Download</string>
+    <string name="start_downloading">Downloading start...</string>
+    <string name="server_registering">Trying (attempt %1$d/%2$d) to register device on Demo Server.</string>
+    <string name="server_registered">From Demo Server: successfully added device!</string>
+    <string name="server_unregistered">From Demo Server: successfully removed device!</string>
+    <string name="server_register_error">Could not register device on Demo Server after %1$d attempts.</string>
+    <string name="server_unregister_error">Could not unregister device on Demo Server (%1$s).</string>
+    <string name="gcm_registered">From GCM: device successfully registered!</string>
+    <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>
+ 
+    <string name="gcm_error">From GCM: error (%1$s).</string>
+    <string name="gcm_recoverable_error">From GCM: recoverable error (%1$s).</string>
+    <string name="gcm_deleted">From GCM: server deleted %1$d pending messages!</string>
+    <string name="problem">Problem while creating task.Please try later!</string>
+    <string name="problem_posting_comment">Problem while posting comments.</string>
+    <string name="close">Close</string>
+    <string name="no_more_comments">No More comments</string>
+    <string name="no_more_data">No More data</string>
+    <string name="no_data">No Data found</string>
+    <string name="get_more_comments">Previous comments</string>
+    <string name="viewpager">ViewPager</string>
+    <string name="photo_process_msg">Select picture from Gallery or Camera</string>
+    <string name="attach">Attach</string>
+    <string name="title_bar">Title Bar Options</string>
+    <string name="title_bar_slide"></string>
+    <string name="title_bar_content">Sliding Content Only</string>
+    <string name="animations">Custom Animations</string>
+    <string name="anim_zoom">Zoom</string>
+    <string name="anim_scale">Scale</string>
+    <string name="anim_fold">Fold</string>
+    <string name="error">Error Message</string>
+    <string name="anim_slide">Slide Up</string>
+    <string name="changing_fragments">Changing Fragments</string>
+    <string name="responsive_ui">Responsive UI</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="left_and_right">Left and Right</string>
+    <string name="github">GitHub</string>
+    <string name="github_label">SlidingMenu on GitHub</string>
+    <string name="what_is_this">What is this?</string>
+    <string name="responsive_explanation">This is an example of a UI that responds well to device type. On phones, the menu will be placed inside a SlidingMenu, while on tablets the menu will be exposed alongside the content because we have enough room to always show it.</string>
+    <string name="about">About</string>
+    <string name="licenses">Licenses</string>
+    <string name="no_network">No network connection.Please check your internet connection.</string>
+    <string name="signup_complete">Register Successfully!Move to Login.</string>
+    <string name="waiting_string">Please Wait&#8230;</string>
+    <string name="verifypassword">Password and Confirm password should be same!</string>
+    <string name="app_name">Cruun</string>
+    <string name="invaild_username_or_password">Invalid user name or password!</string>
+    <string name="problem_register">Email id already exists!</string>
+    <string name="login">Log in</string>
+    <string name="request_for_data_again">No data found!Request data from server again.</string>
+    <string name="signup">Not a member? Sign up now!</string>
+    <string name="dialogtasktitle">Enter task title!</string>
+    <string name="dialogtaskdetail">Enter task detail!</string>
+    <string name="dialogaccounting">Select project!</string>
+    <string name="dialogduedate">Select date!</string>
+    <string name="dialogfirstname">Enter First Name!</string>
+    <string name="dialoglastname">Enter Last Name!</string>
+    <string name="dialogemailid">Enter Email Id!</string>
+    <string name="username">Name</string>
+    <string name="userid">User id</string>
+    <string name="password">Password</string>
+    <string name="forgotpassword">Forgot your password?</string>
+    <string name="keepme">Keep me logged in</string>
+    <string name="buttonlogin">LOGIN</string>
+    <string name="submit">Submit</string>
+    <string name="priority">High Priority</string>
+    <string name="attachment">Attachment</string>
+    <string name="assignee">Assignee</string>
+    <string name="accounting">Accounting</string>
+    <string name="duedate">Due Date</string>
+    <string name="bottomtext">Reduce your email clutter!</string>
+    <string name="contact"> contact |</string>
+    <string name="weblink"> www.cruun.com |</string>
+    <string name="whatsnew"> what\'s new</string>
+    <string name="signupcruun">Sign up for crÃ¼un</string>
+    <string name="dialogfirstname">Enter First Name</string>
+    <string name="dialoglastname">Enter Last Name</string>
+    <string name="dialogemailid">Enter Email Id</string>
+    <string name="varifyemailid">Emaid id is not valid</string>
+    <string name="dialogpassword">Enter Password</string>
+    <string name="dialogconfirmpassword">Enter Confirm Password</string>
+    <string name="password_length">The Password must be at least 6 characters long</string>
+    <string name="already">Already a member? Sign in Now </string>
+    <string name="register">REGISTER</string>
+    <string name="cruun_alert">Cruun</string>
+    <string name="invaild_emailid">Email id does not exists!</string>
+    <string name="user_name">Username</string>
+    <string name="user_password">Password</string>
+    <string name="exit">Are you sure you want to exit?</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="no">No</string>
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
+    <string name="emailid">Email id</string>
+    <string name="confirmpassword">Confirm password</string>
+    <string name="tasktitle">Give your task a title</string>
+    <string name="taskdescription">Give detailed description of your task here</string>
+    <string name="attachfile">Attach a file</string>
+    <string name="post">Post Comment</string>
+    <string name="no_comments">No Comment</string>
+ 
+    <!-- Edit actions -->
+    <string name="edit_action_flip">Flip</string>
+    <string name="edit_action_rotate_90_right">Rotate 90Â° Right</string>
+    <string name="edit_action_rotate_90_left">Rotate 90Â° Left</string>
+    <string name="edit_action_rotate_180">Rotate 180Â°</string>
+    <string name="photo_process_msg">Select picture from Gallery or Camera</string>
+ 
+    <!-- Progress Dialogs -->
+    <string name="reverting_to_original">Reverting to original&#8230;</string>
+    <string name="applying_filter">Applying %s filter&#8230;</string>
+    <string name="flipping">Flipping horizontally&#8230;</string>
+    <string name="rotating_90_right">Rotating 90Â° right&#8230;</string>
+    <string name="rotating_90_left">Rotating 90Â° left&#8230;</string>
+    <string name="rotating_180">Rotating 180Â°&#8230;</string>
+ 
+    <!-- Save action -->
+    <string name="saved_photo_toast_message">Saved photo to %s</string>
+    <string name="btnfriendaccept">Accept</string>
+    <string name="btnfriendreject">Reject</string>
+    <string name="hint_comment">Post Comment</string>
+    <string name="profile_saved_success">Profile updated successfully.</string>
+    <string name="long_press_to_set_as_profilepic">Long press an image to set it as profile picture.</string>
+ 
+    <!-- Activity Stream -->
+ 
+    <string name="status_error">No data found,Please try again</string>
+ 
+   
+ 
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="comments">Hello this is test comments it is inform u to go there and complete task from your end and as soon as possible.</string>
+    <string name="left_menu_title">Menu</string>
+ 
+</resources>

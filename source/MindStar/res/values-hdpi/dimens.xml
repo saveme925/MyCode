@@ -1,0 +1,28 @@
+<resources>
+
+    <dimen name="inner_image_width">110dp</dimen>
+    <dimen name="inner_image_height">130dp</dimen>
+    <dimen name="outer_image_width">130dp</dimen>
+    <dimen name="outer_image_height">170dp</dimen>
+    <dimen name="layout_width">185dp</dimen>
+    <dimen name="layout_height">165dp</dimen>
+    <dimen name="text_size_med">20sp</dimen>
+    <dimen name="outer_profile_image_width">134dp</dimen>
+    <dimen name="outer_profile_image_height">178dp</dimen>
+    <dimen name="profile_img_width">110dp</dimen>
+    <dimen name="profile_img_height">130dp</dimen>
+    <dimen name="left_margin_userprof_pic">13dp</dimen>
+    <dimen name="left_margin_bs_button">0dp</dimen>
+    <dimen name="profile_layout_width">93dp</dimen>
+    <dimen name="profile_layout_height">107dp</dimen>
+    <dimen name="outer_profile_small_image_width">110dp</dimen>
+    <dimen name="outer_profile_small_image_height">140dp</dimen>
+    <dimen name="profile_img_small_width">89dp</dimen>
+    <dimen name="profile_img_small_height">103dp</dimen>
+    <dimen name="profile_img_small_padding">5dip</dimen>
+    <dimen name="action_bar_height">72dp</dimen>
+    <dimen name="action_bar_height_separator">54dp</dimen>
+    <dimen name="font_medium">20sp</dimen>
+    <dimen name="font_large">24dp</dimen>
+
+</resources>

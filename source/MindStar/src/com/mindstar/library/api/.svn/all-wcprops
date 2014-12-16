@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/MoneyTransfer/!svn/ver/28/Android/source/trunk/src/com/moneytransfer/library/api
+END
+Session.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/api/Session.java
+END
+ApiCall.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/api/ApiCall.java
+END
+APIException.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/api/APIException.java
+END

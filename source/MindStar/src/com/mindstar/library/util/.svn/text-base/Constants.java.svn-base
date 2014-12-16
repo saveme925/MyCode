@@ -1,0 +1,101 @@
+package com.moneytransfer.library.util;
+
+/**
+ * Class to define the constants used in the application.
+ * 
+ */
+public class Constants {
+	
+	public static String PREF_FILE_NAME = "com.moneytransfer.prefrences";
+
+	public interface ACTIVITY_STATES {
+		/** Activity type login */
+		final byte SPLASH = 0;
+		final byte HOME = 1;
+		final byte CREATE_TRANSFER = 2;
+		final byte DISBURSE_TRANSFER = 3;
+		final byte MANAGE_CASH = 4;
+		final byte VIEW_STATUS = 5;
+		final byte SETTINGS = 6;
+		final byte DISPLAY_SENDER_DETAILS = 7;
+		final byte SENDER_NEXT_BUTTON = 8;
+		final byte SEARCH_RECEPIENT = 9;
+		final byte AMOUNT = 10;
+		final byte SEND_TRANSFER = 11;
+		final byte SUBMIT_TRANSFER = 12;
+		final byte CONFIRM_TRANSFER = 13;
+		final byte TRANSFER_IN_AMOUNT = 14;
+		final byte CHANGE_PIN = 15;
+		final byte SEARCH_SENDER = 16;
+		final byte AMOUNT_NEXT = 17;
+		final byte CREATE_TRANSFER_SUMMARY = 18;
+		final byte SEARCH_SENDER_DETAILS = 19;
+		final byte LOGIN = 20;
+		final byte SENDER_ADDRESS	=	21;
+		final byte RECEIVER_ADDRESS	=	22;
+		final byte CHECK_ID	=	23;
+
+	}
+	
+	/**
+	 * Constants for different - different Api callss
+	 * 
+	 * @author Pavan
+	 * 
+	 */
+	public interface HTTP_METHODS {
+		final String GET = "GET";
+		final String POST = "POST";
+	}
+	public interface INTENT_CONSTANTS {
+
+		String USER_DETAIL = "USER_DETAIL";
+		String UserKey	=	"UserValues";
+		String TOWN_LIST = "townList";
+		String EXPRESS_TRANSFER_CLIENT = "EXPRESS_TRANSFER_CLIENT";
+		String EXPRESS_TRANSFER_RECEIVER = "EXPRESS_TRANSFER_RECEIVER";
+		String EXPRESS_TRANSFER = "EXPRESS_TRANSFER";
+		
+		
+	}
+	
+	/**
+	 * Constants for different - different Api calls
+	 */
+	public interface TASK_TYPES {
+		/**
+		 * Type for the Login call
+		 */
+		final int LOGIN = 0;
+		final int IS_BRANCH_OPEN_TASK = 1;
+		final int FETCH_LOCATION	=	2;
+		final int CREATE_TRANSFER	=	3;
+		final int TRANSFER_AMOUNT_FEE = 4;
+		
+	}
+	
+	public interface WizardConstants {
+		final String transferNumber = "transfer_number";
+		final String sender			= "sender";
+		final String recipient		= "recipient";
+		final String transferAmount = "transfer_amount";
+		final String transferFee	= "transfer_fee";
+		final String receiverWithID = "receiverWithID";
+		final String receiverTestQuestion = "receiverTestQuestion";
+		final String receiverTestQuestionAnswer = "receiverTestQuestionAnswer";
+		final String creatingAgentId	=	"creatingAgentId";
+		final String disbursingAgentId  =   "disbursingAgentId";
+		final String creationTime		=	"creationTime";
+		final String creationSuccess	=	"creationSuccess";
+		final String disbursed			=	"disbursed";
+		final String creationChannel	=	"creationChannel";
+		final String disbursalChannel	=	"disbursalChannel";
+		final String smsSender			=	"smsSender";
+		final String smsRecipient		=	"smsRecipient";
+		final String creationTransferReceipt	=	"creationTransferReceipt";
+		final String disbursementTransferReceipt	=	"disbursementTransferReceipt";
+		
+	}
+	
+
+}

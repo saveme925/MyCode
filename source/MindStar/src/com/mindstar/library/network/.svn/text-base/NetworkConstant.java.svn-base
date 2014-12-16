@@ -1,0 +1,19 @@
+package com.moneytransfer.library.network;
+
+/**
+ * @author Pavan Interface having base and API urls
+ * 
+ */
+public interface NetworkConstant {
+	/** base URL to access the services */
+	public static final String BASE_URL = "http://213.193.39.28:56782/bpt";
+
+	/**
+	 * Type of encoding used to encode the code
+	 */
+	public static final String TEXT_ENCODING = "UTF8";
+	/**
+	 * Type of the content
+	 */
+	public static final String CONTENT_TYPE = "application/xml";
+}

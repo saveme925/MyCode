@@ -1,0 +1,15 @@
+package com.moneytransfer.library.api.calls;
+
+import org.simpleframework.xml.Element;
+
+public class BaseResponse {
+
+	@Element(required=false)
+    protected String message;
+//	@Element(required=false)
+//    protected Exception exception;
+//	
+	@Element(required=false)
+	protected Boolean success;
+	
+}

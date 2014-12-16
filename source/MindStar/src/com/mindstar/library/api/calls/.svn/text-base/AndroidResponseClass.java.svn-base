@@ -1,0 +1,10 @@
+package com.moneytransfer.library.api.calls;
+
+import org.simpleframework.xml.Element;
+
+public class AndroidResponseClass extends BaseResponse{
+
+	@Element(required=false)
+	public Boolean payload;
+	
+}

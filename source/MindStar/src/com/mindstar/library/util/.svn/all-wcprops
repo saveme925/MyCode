@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/MoneyTransfer/!svn/ver/28/Android/source/trunk/src/com/moneytransfer/library/util
+END
+ConsoleLogProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/ConsoleLogProvider.java
+END
+ErrorExplanations.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/ErrorExplanations.java
+END
+EventHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/MoneyTransfer/!svn/ver/28/Android/source/trunk/src/com/moneytransfer/library/util/EventHandler.java
+END
+ObjectSerializer.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/ObjectSerializer.java
+END
+SharedPreferencesLocalStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/util/SharedPreferencesLocalStore.java
+END
+SharedPrefrence.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/util/SharedPrefrence.java
+END
+Log.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/Log.java
+END
+Utility.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/Utility.java
+END
+CustomException.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/CustomException.java
+END
+Constants.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/MoneyTransfer/!svn/ver/28/Android/source/trunk/src/com/moneytransfer/library/util/Constants.java
+END
+WordUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/library/util/WordUtils.java
+END
+WizardStore.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/library/util/WizardStore.java
+END

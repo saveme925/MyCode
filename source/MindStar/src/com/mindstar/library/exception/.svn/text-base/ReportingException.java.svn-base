@@ -1,0 +1,18 @@
+package com.moneytransfer.library.exception;
+
+import java.util.logging.Logger;
+
+/**
+ * Mobile Payment Solutions Ltd. Package:
+ * com.mps.transfers.persistence.reporting Created by IntelliJ IDEA. User:
+ * david.mulenga Date: Jun 20, 2011 Time: 2:58:07 PM
+ * 
+ */
+public class ReportingException extends BaseException {
+	private final static Logger log = Logger.getLogger(ReportingException.class
+			.getName());
+
+	public ReportingException(String s) {
+		super(s);
+	}
+}

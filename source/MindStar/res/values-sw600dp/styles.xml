@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="white_Txt_large">
+        <item name="android:textSize">@dimen/text_size_Large</item>
+        <item name="android:textColor">@drawable/white_color</item>
+    </style>
+
+    <style name="profile_name_text">
+        <item name="android:textSize">@dimen/profile_name_text_size</item>
+        <item name="android:textColor">@drawable/white_color</item>
+    </style>
+
+    <style name="bold_white_Txt_large">
+        <item name="android:textSize">@dimen/text_size_Large</item>
+        <item name="android:textColor">@drawable/white_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="white_Txt_medium">
+        <item name="android:textSize">@dimen/text_size_Medium</item>
+        <item name="android:textColor">@drawable/white_color</item>
+    </style>
+
+    <style name="white_Txt_small">
+        <item name="android:textSize">@dimen/text_size_Small</item>
+        <item name="android:textColor">@drawable/white_color</item>
+    </style>
+
+    <style name="heading_Txt_large">
+        <item name="android:textSize">@dimen/heading_text_size_Large</item>
+        <item name="android:textColor">@drawable/saffron_color</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="blue_txt_small">
+        <item name="android:textSize">@dimen/text_size_Large</item>
+        <item name="android:textColor">@drawable/blue_color</item>
+    </style>
+
+    <style name="orange_Txt_small">
+        <item name="android:textSize">@dimen/text_size_Small</item>
+        <item name="android:textColor">@drawable/orange_color</item>
+    </style>
+
+    <style name="red_txt_small">
+        <item name="android:textSize">@dimen/text_size_Small</item>
+        <item name="android:textColor">#F01313</item>
+    </style>
+
+    <style name="blue_Txt_small">
+        <item name="android:textSize">@dimen/text_size_Small</item>
+        <item name="android:textColor">@drawable/blue_color</item>
+    </style>
+
+    <style name="grey_Txt_small">
+        <item name="android:textSize">@dimen/text_size_Small</item>
+        <item name="android:textColor">@drawable/grey_color</item>
+    </style>
+
+    <style name="grey_Txt_medium">
+        <item name="android:textSize">@dimen/text_size_Medium</item>
+        <item name="android:textColor">@drawable/grey_color</item>
+    </style>
+
+    <style name="blue_Txt_medium">
+        <item name="android:textSize">@dimen/text_size_Medium</item>
+        <item name="android:textColor">@drawable/blue_color</item>
+    </style>
+
+    <style name="blue_Txt_large">
+        <item name="android:textSize">@dimen/text_size_Large</item>
+        <item name="android:textColor">@drawable/blue_color</item>
+    </style>
+
+    <style name="bold_black_Txt_medium">
+        <item name="android:textSize">@dimen/text_size_Medium</item>
+        <item name="android:textColor">@drawable/black_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="bold_black_Txt_small">
+        <item name="android:textSize">@dimen/text_size_Small</item>
+        <item name="android:textColor">@drawable/black_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="HeaderFont">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@drawable/white_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <declare-styleable name="PicGallery">
+        <attr name="android:galleryItemBackground" />
+    </declare-styleable>
+
+</resources>

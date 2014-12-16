@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/network
+END
+HttpHead.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpHead.java
+END
+AbstractHttpClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/network/AbstractHttpClient.java
+END
+HttpDelete.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpDelete.java
+END
+HttpRequestException.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpRequestException.java
+END
+HttpPut.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpPut.java
+END
+HttpConnectionProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/MoneyTransfer/!svn/ver/26/Android/source/trunk/src/com/moneytransfer/network/HttpConnectionProvider.java
+END
+ConsoleRequestLogger.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/ConsoleRequestLogger.java
+END
+ParameterMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/ParameterMap.java
+END
+HttpClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpClient.java
+END
+AndroidHttpClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/AndroidHttpClient.java
+END
+HttpGet.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpGet.java
+END
+BasicHttpClient.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/BasicHttpClient.java
+END
+HttpMethod.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpMethod.java
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/package-info.java
+END
+HttpPost.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpPost.java
+END
+RequestHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/RequestHandler.java
+END
+HttpRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpRequest.java
+END
+BasicRequestHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/BasicRequestHandler.java
+END
+RequestLogger.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/RequestLogger.java
+END
+HttpResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/MoneyTransfer/!svn/ver/20/Android/source/trunk/src/com/moneytransfer/network/HttpResponse.java
+END

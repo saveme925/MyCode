@@ -1,0 +1,221 @@
+package com.moneytransfer.app;
+
+import android.app.Activity;
+import android.content.Intent;
+
+import com.moneytransfer.activity.AmountDetailsActivity;
+import com.moneytransfer.activity.CheckTestQuestionActivity;
+import com.moneytransfer.activity.CreateTransferSummaryActivity;
+import com.moneytransfer.activity.DisburseTransferSummary;
+import com.moneytransfer.activity.DisplayRecepientDetails;
+import com.moneytransfer.activity.DisplaySenderDetails;
+import com.moneytransfer.activity.HomeActivity;
+import com.moneytransfer.activity.LoginActivity;
+import com.moneytransfer.activity.ManageCashActivity;
+import com.moneytransfer.activity.ReceiverAddressActivity;
+import com.moneytransfer.activity.SearchRecepientDetails;
+import com.moneytransfer.activity.SearchSenderDetail;
+import com.moneytransfer.activity.SenderAddressActivity;
+import com.moneytransfer.activity.SettingActivity;
+import com.moneytransfer.activity.SettingDetailActivity;
+import com.moneytransfer.activity.TestQuestionActivity;
+import com.moneytransfer.activity.TransferNumber;
+import com.moneytransfer.activity.ViewStatusActivity;
+import com.moneytransfer.library.util.Constants.ACTIVITY_STATES;
+import com.moneytransfer.library.util.WizardStore;
+import com.mps.transfers.domain.model.views.ExpressTransfer;
+
+/**
+ * @author Pavan
+ */
+public class UiController {
+	/**
+	 * @param fromActivity
+	 *            current activity
+	 * @param toActivityId
+	 *            new activity
+	 * @param dataToSend
+	 *            data from one activity to another activity
+	 */
+	@SuppressWarnings("unchecked")
+	public void handleEvent(Activity fromActivity, byte toActivityId,
+			Object dataToSend) {
+		Intent intent = null;
+		switch (toActivityId) {
+		case ACTIVITY_STATES.LOGIN:
+			intent = new Intent(fromActivity, LoginActivity.class);
+			break;
+
+		 case ACTIVITY_STATES.HOME:
+		
+		 intent = new Intent(fromActivity, HomeActivity.class);
+		 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 break;
+
+		case ACTIVITY_STATES.CREATE_TRANSFER:
+			intent = new Intent(fromActivity, SearchSenderDetail.class);
+			break;
+
+		case ACTIVITY_STATES.DISBURSE_TRANSFER:
+			intent = new Intent(fromActivity, TransferNumber.class);
+			break;
+
+		case ACTIVITY_STATES.MANAGE_CASH:
+			intent = new Intent(fromActivity, ManageCashActivity.class);
+			break;
+
+		case ACTIVITY_STATES.VIEW_STATUS:
+			intent = new Intent(fromActivity, ViewStatusActivity.class);
+			break;
+
+		 case ACTIVITY_STATES.SEARCH_SENDER_DETAILS:
+		 intent = new Intent(fromActivity, DisplaySenderDetails.class);
+			
+		 
+		 break;
+
+		 case ACTIVITY_STATES.CHECK_ID:
+		 intent = new Intent(fromActivity, CheckTestQuestionActivity.class);
+		 break;
+
+		case ACTIVITY_STATES.SENDER_NEXT_BUTTON:
+			intent = new Intent(fromActivity, SearchRecepientDetails.class);
+			break;
+
+		 case ACTIVITY_STATES.SENDER_ADDRESS:
+			 intent = new Intent(fromActivity, SenderAddressActivity.class);
+			 break;
+
+		case ACTIVITY_STATES.SEARCH_RECEPIENT:
+			intent = new Intent(fromActivity, DisplayRecepientDetails.class);
+			break;
+
+		 case ACTIVITY_STATES.AMOUNT:
+		 intent = new Intent(fromActivity, AmountDetailsActivity.class);
+		 break;
+
+		 case ACTIVITY_STATES.RECEIVER_ADDRESS:
+			 intent = new Intent(fromActivity, ReceiverAddressActivity.class);
+			 break;
+
+		case ACTIVITY_STATES.AMOUNT_NEXT:
+			intent = new Intent(fromActivity,
+					CreateTransferSummaryActivity.class);
+			break;
+
+		case ACTIVITY_STATES.SUBMIT_TRANSFER:
+			intent = new Intent(fromActivity, TestQuestionActivity.class);
+			break;
+
+		case ACTIVITY_STATES.CONFIRM_TRANSFER:
+			intent = new Intent(fromActivity, DisburseTransferSummary.class);
+			break;
+
+		 case ACTIVITY_STATES.CREATE_TRANSFER_SUMMARY:
+			 intent = new Intent(fromActivity,
+			 CreateTransferSummaryActivity.class);
+			 break;
+
+		case ACTIVITY_STATES.CHANGE_PIN:
+			intent = new Intent(fromActivity, SettingDetailActivity.class);
+
+			break;
+
+		case ACTIVITY_STATES.SETTINGS:
+			intent = new Intent(fromActivity, SettingActivity.class);
+
+			break;
+
+		// case ACTIVITY_STATES.TRANSFER_IN_AMOUNT:
+		// intent = new Intent(fromActivity, TransferInActivity.class);
+		// break;
+
+		}
+		if (intent != null) {
+			WizardStore l_store = WizardStore.getInstance();
+			l_store.setExpressTransfer((ExpressTransfer) dataToSend);
+//			if(dataToSend!=null && dataToSend instanceof ExpressTransfer){
+//				ExpressTransfer expressSearchSender = (ExpressTransfer) dataToSend;
+//				intent.putExtra(INTENT_CONSTANTS.EXPRESS_TRANSFER, expressSearchSender);
+//			}
+			fromActivity.startActivity(intent);
+		}
+	}
+
+	/**
+	 * Method to start activity for Result
+	 * 
+	 * @param fromActivity
+	 * @param toActivityId
+	 * @param requestCode
+	 * @param dataToSend
+	 */
+	@SuppressWarnings("unchecked")
+	public void handleEventForResult(Activity fromActivity, byte toActivityId,
+			int requestCode, Object dataToSend) {
+		Intent intent = null;
+		switch (toActivityId) {
+
+//		case ACTIVITY_STATES.SEARCH_SENDER_DETAILS:
+//			intent = new Intent(fromActivity, DisplaySenderDetails.class);
+//			if(dataToSend!=null && dataToSend instanceof ArrayList){
+//				ArrayList list=(ArrayList) dataToSend;
+//				intent.putExtra("sendervalues", list);
+//			}
+			
+//			break;
+
+//		case ACTIVITY_STATES.HOME:
+//			intent = new Intent(fromActivity, HomeActivity.class);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			break;
+
+//		case ACTIVITY_STATES.SENDER_ADDRESS:
+//			intent = new Intent(fromActivity, SenderAddressActivity.class);
+//			break;
+//		case ACTIVITY_STATES.CHECK_ID:
+//			intent = new Intent(fromActivity, CheckTestQuestionActivity.class);
+//			break;
+
+//		case ACTIVITY_STATES.RECEIVER_ADDRESS:
+//			intent = new Intent(fromActivity, ReceiverAddressActivity.class);
+////			if(dataToSend!=null && dataToSend instanceof ArrayList){
+////				ArrayList list=(ArrayList) dataToSend;
+////				intent.putExtra("receivervalues", list);
+////			}
+//			break;
+
+//		case ACTIVITY_STATES.AMOUNT:
+//			intent = new Intent(fromActivity, AmountDetailsActivity.class);
+//			break;
+
+//		case ACTIVITY_STATES.CREATE_TRANSFER_SUMMARY:
+//			intent = new Intent(fromActivity,
+//					CreateTransferSummaryActivity.class);
+//			break;
+//
+		}
+		if (intent != null) {
+			fromActivity.startActivityForResult(intent, requestCode);
+		}
+	}
+
+	/**
+	 * Method to clear all activities and get exit from the home
+	 * 
+	 * @param ctx
+	 */
+	public static void clearAndLogout(Activity ctx) {
+
+		// if (!(ctx instanceof HomeActivity)) {
+		// Intent intent = new Intent(ctx, HomeActivity.class);
+		// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		// intent.putExtra("EXIT", true);
+		// ctx.startActivity(intent);
+		// } else {
+		// ((Activity) ctx).finish();
+		// }
+
+	}
+
+}

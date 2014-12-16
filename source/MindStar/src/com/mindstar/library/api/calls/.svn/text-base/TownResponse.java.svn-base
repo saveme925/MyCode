@@ -1,0 +1,17 @@
+package com.moneytransfer.library.api.calls;
+
+import org.simpleframework.xml.Element;
+
+import com.mps.transfers.android.dto.Towns;
+
+
+
+public class TownResponse extends BaseResponse{
+	
+	@Element(required=false)
+	public Towns payload;
+	
+	
+	
+
+}

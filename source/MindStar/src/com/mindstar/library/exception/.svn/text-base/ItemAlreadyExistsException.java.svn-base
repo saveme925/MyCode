@@ -1,0 +1,10 @@
+package com.moneytransfer.library.exception;
+
+
+/**
+ * Mobile Payment Solutions Ltd. Package: com.mps.transfers.exception User: marcus Date: Apr 8, 2011 Time: 12:36:45 PM
+ */
+public class ItemAlreadyExistsException extends BaseException {
+
+	public static final int HTTP_ERROR_CODE = 403;
+}

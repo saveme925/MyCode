@@ -1,0 +1,12 @@
+package com.moneytransfer.library.api.calls;
+
+import org.simpleframework.xml.Element;
+
+import com.mps.transfers.security.web.views.User;
+
+public class LoginResponse extends BaseResponse {
+
+	@Element(required=false)
+	public User payload;
+		
+}

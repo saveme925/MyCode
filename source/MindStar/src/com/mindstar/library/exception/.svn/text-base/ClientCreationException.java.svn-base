@@ -1,0 +1,17 @@
+package com.moneytransfer.library.exception;
+
+
+/**
+ * Mobile Payment Solutions Ltd.
+ * Created by IntelliJ IDEA.
+ * User: david.mulenga
+ * Date: Jun 24, 2011
+ * Time: 2:00:31 PM
+ */
+public class ClientCreationException extends BaseException {
+
+    public ClientCreationException(String s)
+    {
+        super(s);
+    }
+}
