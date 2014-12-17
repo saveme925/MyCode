@@ -1,5 +1,6 @@
 package com.mindstar.app;
 
+// This is model class
 public class ListModel {
 
 	
