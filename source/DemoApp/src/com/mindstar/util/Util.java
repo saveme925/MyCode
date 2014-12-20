@@ -22,7 +22,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 
 /**
  * 
- * @author Sachit Wadhawan
+ * @author Sachit Wadhawan()
  * 
  */
 
