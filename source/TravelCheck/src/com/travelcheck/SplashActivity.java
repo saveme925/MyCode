@@ -10,7 +10,7 @@ import com.travelcheck.app.AppController;
 import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
 
 /**
- * @author Sachit Wadhawan
+ * @author Sachit Wadhawan()
  */
 
 public class SplashActivity extends Activity {
