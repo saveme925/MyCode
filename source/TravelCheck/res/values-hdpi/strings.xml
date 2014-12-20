@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 
+    <string-array name="left_menu_name">
+        <item>Home</item>
+        <item>My Task</item>
+        <item>Pivate Messages</item>
+        <item>Recent Activity</item>
+        <item>My PortFolios</item>
+        <item>Settings</item>
+        <item>Logout</item>
+    </string-array>
+    
+</resources>

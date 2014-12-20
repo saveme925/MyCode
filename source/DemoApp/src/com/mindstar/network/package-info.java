@@ -1,6 +1,0 @@
-/**
- * Minimal HTTP client for Android wrapping {@link java.net.HttpURLConnection}.
- * 
- * Main class is {@link com.android.stiggle.network.turbomanage.httpclient.android.AndroidHttpClient}.
- */
-package com.mindstar.network;
