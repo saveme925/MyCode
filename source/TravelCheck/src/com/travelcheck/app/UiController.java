@@ -1,12 +1,15 @@
 package com.travelcheck.app;
 
+import com.travelcheck.DashBoard;
+import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
+
 import android.app.Activity;
 import android.content.Intent;
 
 /**
  * @author Sachit
  */
-public class UiController{
+public class UiController {
 	/**
 	 * @param fromActivity
 	 *            current activity
@@ -20,7 +23,11 @@ public class UiController{
 			Object dataToSend) {
 		Intent intent = null;
 		switch (toActivityId) {
-		
+
+		case ACTIVITY_STATES.MAIN_APP:
+			 intent = new Intent(fromActivity, DashBoard.class);
+			break;
+
 		}
 		if (intent != null) {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -43,9 +50,9 @@ public class UiController{
 		Intent intent = null;
 		switch (toActivityId) {
 
-//		case ACTIVITY_STATES.CALENDER:
-////			intent = new Intent(fromActivity, CalendarView.class);
-//			break;
+		// case ACTIVITY_STATES.CALENDER:
+		// // intent = new Intent(fromActivity, CalendarView.class);
+		// break;
 		}
 
 		if (intent != null) {

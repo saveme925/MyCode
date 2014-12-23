@@ -1,11 +1,16 @@
 package com.travelcheck.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.provider.ContactsContract;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -19,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.travelcheck.model.EmailModel;
 
 /**
  * 
@@ -93,6 +99,61 @@ public class Util {
 		}
 
 	}
+
+	/**
+	 * Method to fetch all email address from the devices
+	 * 
+	 * @param p_context
+	 * @return
+	 */
+
+	public static List<EmailModel> doLaunchContactPicker(Context p_context) {
+
+		List<EmailModel> l_emailId = new ArrayList<EmailModel>();
+		ContentResolver cr = p_context.getContentResolver();
+		Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
+				null, null, null);
+		if (cur.getCount() > 0) {
+			while (cur.moveToNext()) {
+				String id = cur.getString(cur
+						.getColumnIndex(ContactsContract.Contacts._ID));
+
+				// if (Integer
+				// .parseInt(cur.getString(cur
+				// .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))
+				// > 0) {
+
+				Cursor emailCur = cr.query(
+						ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+						null, ContactsContract.CommonDataKinds.Email.CONTACT_ID
+								+ " = ?", new String[] { id }, null);
+				while (emailCur.moveToNext()) {
+					// This would allow you get several email addresses
+					// if the email addresses were stored in an array
+					String email = emailCur
+							.getString(emailCur
+									.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+					String phoneNumber = emailCur
+							.getString(emailCur
+									.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+					EmailModel l_model = new EmailModel();
+					l_model.setProperties(email);
+					l_emailId.add(l_model);
+
+				}
+				emailCur.close();
+
+			}
+
+		}
+		// }
+
+		return l_emailId;
+
+	}
+
+	
 
 	public static SpannableString underlineText(String text) {
 		SpannableString contentUnderline = new SpannableString(text);
