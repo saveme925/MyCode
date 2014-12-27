@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name="com.travelcheck.UILApplication"
@@ -56,12 +57,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         
-        <activity
-            android:name="com.travelcheck.ShareImagePopUp"
-            android:configChanges="orientation|keyboardHidden"
-            android:icon="@drawable/menu"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+        
     </application>
+
 
 </manifest>
