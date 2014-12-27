@@ -1,10 +1,14 @@
 package com.travelcheck;
 
+<<<<<<< HEAD:source/TravelCheck/src/com/travelcheck/Dashboard.java
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+=======
+import java.io.IOException;
+>>>>>>> fee15e7846b05ccff6a69a47e9dd145d9aaa2346:source/TravelCheck/src/com/travelcheck/FavouritesContacts.java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +19,11 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+<<<<<<< HEAD:source/TravelCheck/src/com/travelcheck/Dashboard.java
 import android.content.Intent;
+=======
+import android.content.DialogInterface.OnDismissListener;
+>>>>>>> fee15e7846b05ccff6a69a47e9dd145d9aaa2346:source/TravelCheck/src/com/travelcheck/FavouritesContacts.java
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -25,25 +33,27 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
+import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.travelcheck.adapter.EmailAdapter;
+import com.travelcheck.adapter.FavouriteListAdapter;
 import com.travelcheck.adapter.PhoneAdapter;
+import com.travelcheck.db.DBHelper;
 import com.travelcheck.model.EmailModel;
+import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
 import com.travelcheck.util.Util;
 
-public class DashBoard extends Activity {
+public class FavouritesContacts extends Activity {
 
 	/**
 	 * Global variables
@@ -58,20 +68,29 @@ public class DashBoard extends Activity {
 	private ListView mPhoneList;
 	private List<EmailModel> l_emailAddress;
 	private List<PhoneModel> l_phoneNumber;
+<<<<<<< HEAD:source/TravelCheck/src/com/travelcheck/Dashboard.java
 	public Button CameraBtn;
 	String extStorageDirectory ;
 	String Image;
 	private static final int CAMERA_REQUEST = 1888; 
 	Bitmap photo;
+=======
+	private DBHelper dbh;
+>>>>>>> fee15e7846b05ccff6a69a47e9dd145d9aaa2346:source/TravelCheck/src/com/travelcheck/FavouritesContacts.java
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+<<<<<<< HEAD:source/TravelCheck/src/com/travelcheck/Dashboard.java
 		setContentView(R.layout.activity_main);
 		extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
+=======
+		setContentView(R.layout.dashboard);
+
+>>>>>>> fee15e7846b05ccff6a69a47e9dd145d9aaa2346:source/TravelCheck/src/com/travelcheck/FavouritesContacts.java
 		findViewById();
 	}
 
@@ -100,6 +119,8 @@ public class DashBoard extends Activity {
 			mAddEmail.setBackgroundColor(Color.WHITE);
 			mPhoneList.setVisibility(View.GONE);
 			mEmailList.setVisibility(View.VISIBLE);
+			mEmailListBottom.setVisibility(View.VISIBLE);
+			mPhoneListBottom.setVisibility(View.INVISIBLE);
 
 		}
 	};
@@ -131,6 +152,8 @@ public class DashBoard extends Activity {
 			mAddPhoneNumber.setBackgroundColor(Color.WHITE);
 			mPhoneList.setVisibility(View.VISIBLE);
 			mEmailList.setVisibility(View.GONE);
+			mEmailListBottom.setVisibility(View.INVISIBLE);
+			mPhoneListBottom.setVisibility(View.VISIBLE);
 
 		}
 	};
@@ -175,29 +198,37 @@ public class DashBoard extends Activity {
 
 				@Override
 				protected void onPreExecute() {
-
+					Util.l_contact_list = new ArrayList<FavouritesModel>();
+					l_emailAddress = new ArrayList<EmailModel>();
+					l_phoneNumber = new ArrayList<PhoneModel>();
 					showProgressDialog(getString(R.string.waiting_string),
-							DashBoard.this);
+							FavouritesContacts.this);
 					super.onPreExecute();
 				}
 
 				@Override
 				protected Void doInBackground(Void... params) {
-					// l_emailAddress =
-					// Util.doLaunchContactPicker(DashBoard.this);
-					readContacts(DashBoard.this);
+					dbh = new DBHelper(FavouritesContacts.this);
+					try {
+						dbh.createDataBase();
+
+					} catch (IOException ioe) {
+						throw new Error("Unable to create database");
+					}
+					dbh.openDataBase();
+					Util.l_contact_list = dbh.retrieveFavouritesList();
+					readContacts(FavouritesContacts.this);
 					return null;
 				}
 
 				@Override
 				protected void onPostExecute(Void result) {
 					cancelProgrssDialog();
-					// if (l_emailAddress.size() < 1) {
-					//
-					// Util.toastMessage(DashBoard.this, "No email found");
-					// return;
-					// }
-					showUserEmails();
+					if (Util.l_contact_list.size() > 0) {
+						ShowFavContactList();
+					} else {
+						showUserEmails();
+					}
 
 					super.onPostExecute(result);
 				}
@@ -206,12 +237,15 @@ public class DashBoard extends Activity {
 
 		}
 	};
+	private TextView mEmailListBottom;
+	private TextView mPhoneListBottom;
 
 	/**
 	 * Method to pick all emails and phone number from device
 	 * 
 	 * @param p_context
 	 *            Context of an activity
+	 * @param p_contact_list
 	 */
 
 	public void readContacts(Context p_context) {
@@ -261,20 +295,73 @@ public class DashBoard extends Activity {
 		}
 	}
 
+	private void ShowFavContactList() {
+
+		builder = new Dialog(FavouritesContacts.this);
+		builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		builder.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		final LayoutInflater inflator = LayoutInflater
+				.from(FavouritesContacts.this);
+		View view = inflator.inflate(R.layout.favourite_list, null);
+		mEmailList = (ListView) view.findViewById(R.id.favourite_list);
+		TextView mAddFav = (TextView) view.findViewById(R.id.add_button);
+		mAddFav.setOnClickListener(makeFavClickListener);
+		builder.setContentView(view);
+		FavouriteListAdapter l_fav_adapter = new FavouriteListAdapter(
+				FavouritesContacts.this, Util.l_contact_list);
+		mEmailList.setAdapter(l_fav_adapter);
+
+		setLayoutOfBuilder();
+
+		builder.show();
+
+	}
+
+	private OnClickListener makeFavClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			builder.cancel();
+			showUserEmails();
+
+		}
+	};
+
+	public void setLayoutOfBuilder() {
+
+		Window window = builder.getWindow();
+		WindowManager.LayoutParams wlp = window.getAttributes();
+
+		wlp.gravity = Gravity.CENTER;
+		wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+		window.setAttributes(wlp);
+		builder.getWindow().setLayout(LayoutParams.FILL_PARENT,
+				LayoutParams.MATCH_PARENT);
+
+	}
+
 	/**
 	 * Method to show all emails and phone number to UI.
 	 */
 
 	private void showUserEmails() {
 
-		builder = new Dialog(DashBoard.this);
+		builder = new Dialog(FavouritesContacts.this);
 		builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		builder.getWindow().setBackgroundDrawable(
 				new ColorDrawable(android.graphics.Color.TRANSPARENT));
-		final LayoutInflater inflator = LayoutInflater.from(DashBoard.this);
+		final LayoutInflater inflator = LayoutInflater
+				.from(FavouritesContacts.this);
 		View view = inflator.inflate(R.layout.email_list, null);
 		mEmailList = (ListView) view.findViewById(R.id.email_list);
 		mPhoneList = (ListView) view.findViewById(R.id.phone_list);
+		mEmailListBottom = (TextView) view
+				.findViewById(R.id.addemail_bottom_textview);
+		mEmailListBottom.setVisibility(View.VISIBLE);
+		mPhoneListBottom = (TextView) view
+				.findViewById(R.id.addphonenumber_bottom_textview);
+		mPhoneListBottom.setVisibility(View.INVISIBLE);
 		mAddEmail = (TextView) view.findViewById(R.id.addemail_textview);
 		mAddEmail.setOnClickListener(addEmailClickListener);
 		mAddPhoneNumber = (TextView) view
@@ -284,17 +371,29 @@ public class DashBoard extends Activity {
 				.findViewById(R.id.cancelemail_button);
 		l_cancel.setOnClickListener(cancelDialogClickListener);
 		builder.setContentView(view);
-
-		EmailAdapter l_email_adapter = new EmailAdapter(DashBoard.this,
-				l_emailAddress);
-		PhoneAdapter l_phone_adapter = new PhoneAdapter(DashBoard.this,
-				l_phoneNumber);
+		builder.setOnDismissListener(dialogDismissListener);
+		EmailAdapter l_email_adapter = new EmailAdapter(
+				FavouritesContacts.this, l_emailAddress, dbh);
+		PhoneAdapter l_phone_adapter = new PhoneAdapter(
+				FavouritesContacts.this, l_phoneNumber, dbh);
 
 		mEmailList.setAdapter(l_email_adapter);
 		mPhoneList.setAdapter(l_phone_adapter);
+		setLayoutOfBuilder();
 		builder.show();
 
 	}
+
+	private OnDismissListener dialogDismissListener = new OnDismissListener() {
+
+		@Override
+		public void onDismiss(DialogInterface dialog) {
+			try {
+				dbh.close();
+			} catch (Exception e) {
+			}
+		}
+	};
 
 	/**
 	 * Listener for cancel dialog

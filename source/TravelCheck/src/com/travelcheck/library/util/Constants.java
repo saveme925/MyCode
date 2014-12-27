@@ -22,11 +22,18 @@ public class Constants {
 		String USER_DETAIL = "USER_DETAIL";
 
 	}
-	
+
 	public interface ACTIVITY_STATES {
 		/** Activity type login */
 		final byte SPLASH = 0;
 		final byte MAIN_APP = 1;
-		}
+		final byte SHARE_IMAGE = 2;
+	}
+
+	public interface DATABASE_VARIABLES {
+
+		final String CONTACTS = "contact_number";
+
+	}
 
 }

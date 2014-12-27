@@ -2,25 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/popup_background"
+    android:background="#fff"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/cancelemail_button"
+    <LinearLayout
+        android:id="@+id/bottom_bar_linearlayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Cancel"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000" />
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/cancelemail_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Cancel"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000" />
+    </LinearLayout>
 
     <View
         android:id="@+id/view"
         android:layout_width="fill_parent"
         android:layout_height="1px"
-        android:layout_above="@id/cancelemail_button"
+        android:layout_above="@id/bottom_bar_linearlayout"
         android:background="#a0a0a0" />
 
     <LinearLayout
@@ -37,7 +45,7 @@
             android:layout_weight="1"
             android:background="#fff"
             android:gravity="center"
-            android:padding="15dp"
+            android:padding="13dp"
             android:text="Email"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#000"
@@ -51,11 +59,35 @@
             android:background="@color/feed_bg"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:padding="15dp"
+            android:padding="13dp"
             android:text="Phone Number"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#000"
             android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/header_bottom_linearlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/topheader_linearlayout"
+        android:background="#fff"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/addemail_bottom_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/addphonenumber_bottom_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/dark_grey"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <ListView
@@ -63,32 +95,34 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/view"
-        android:layout_below="@id/topheader_linearlayout"
-        android:choiceMode="singleChoice"
+        android:layout_below="@id/header_bottom_linearlayout"
+        android:layout_marginLeft="3dp"
+        android:choiceMode="multipleChoice"
+        android:divider="#a0a0a0"
+        android:dividerHeight="1px"
         android:fadingEdge="none"
         android:fastScrollEnabled="true"
-        android:scrollbarSize="5dip"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarSize="2dip"
         android:scrollbarStyle="outsideInset"
         android:scrollbarThumbVertical="@drawable/scrollbarcolor" />
-    
-    
+
     <ListView
         android:id="@+id/phone_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/view"
-        android:layout_below="@id/topheader_linearlayout"
+        android:layout_below="@id/header_bottom_linearlayout"
+        android:layout_marginLeft="3dp"
         android:choiceMode="singleChoice"
+        android:divider="#a0a0a0"
+        android:dividerHeight="1px"
         android:fadingEdge="none"
-        android:visibility="gone"
         android:fastScrollEnabled="true"
-        android:scrollbarSize="5dip"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarSize="2dip"
         android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@drawable/scrollbarcolor" />
-    
-    
-    
-    
-    
+        android:scrollbarThumbVertical="@drawable/scrollbarcolor"
+        android:visibility="gone" />
 
 </RelativeLayout>
