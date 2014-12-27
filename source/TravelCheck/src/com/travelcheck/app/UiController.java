@@ -1,10 +1,11 @@
 package com.travelcheck.app;
 
-import com.travelcheck.DashBoard;
-import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
-
 import android.app.Activity;
 import android.content.Intent;
+
+import com.travelcheck.FavouritesContacts;
+import com.travelcheck.MainActivity;
+import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
 
 /**
  * @author Sachit
@@ -25,7 +26,11 @@ public class UiController {
 		switch (toActivityId) {
 
 		case ACTIVITY_STATES.MAIN_APP:
-			 intent = new Intent(fromActivity, DashBoard.class);
+			intent = new Intent(fromActivity, FavouritesContacts.class);
+			break;
+
+		case ACTIVITY_STATES.SHARE_IMAGE:
+			intent = new Intent(fromActivity, MainActivity.class);
 			break;
 
 		}

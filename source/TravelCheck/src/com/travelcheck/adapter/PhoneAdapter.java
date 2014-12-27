@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.pkmmte.circularimageview.CircularImageView;
 import com.travelcheck.R;
+import com.travelcheck.db.DBHelper;
 import com.travelcheck.listener.ClickListenerForSelectPhone;
 import com.travelcheck.model.EmailModel;
 import com.travelcheck.model.PhoneModel;
@@ -26,10 +28,13 @@ public class PhoneAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private Context mContext;
 	private List<PhoneModel> mCandidateData;
-
-	public PhoneAdapter(Context pContext, List<PhoneModel> pCandidateData) {
+	private DBHelper m_dbh;
+	
+	public PhoneAdapter(Context pContext, List<PhoneModel> pCandidateData,
+			DBHelper p_dbh) {
 
 		mContext = pContext;
+		m_dbh = p_dbh;
 		mCandidateData = pCandidateData;
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,6 +46,7 @@ public class PhoneAdapter extends BaseAdapter {
 		public TextView mName;
 		public ImageView mSelectState;
 		public RelativeLayout mWholeLayout;
+		public CircularImageView mImage;
 
 	}
 
@@ -97,13 +103,14 @@ public class PhoneAdapter extends BaseAdapter {
 
 		}
 		holder.mName.setText(mModel.getmName());
+		holder.mImage.setImageResource(R.drawable.default_avatar);
 
 	}
 
 	private void setOnclickListener() {
 
 		ClickListenerForSelectPhone l_listener = new ClickListenerForSelectPhone(
-				holder.mSelectState, mContext, mModel);
+				holder.mSelectState, mContext, mModel,m_dbh);
 		holder.mSelectState.setOnClickListener(l_listener);
 
 	}
@@ -114,6 +121,9 @@ public class PhoneAdapter extends BaseAdapter {
 				.findViewById(R.id.whole_row_relativelayout);
 		holder.mName = (TextView) pConvertView
 				.findViewById(R.id.candidatename_textview);
+		holder.mImage = (CircularImageView) pConvertView
+				.findViewById(R.id.candidate_profileimage_imageview);
+
 
 		holder.mSelectState = (ImageView) pConvertView
 				.findViewById(R.id.select_candidate_imageview);

@@ -71,7 +71,7 @@
     <string name="signup_complete">Register Successfully!Move to Login.</string>
     <string name="waiting_string">Please Wait&#8230;</string>
     <string name="verifypassword">Password and Confirm password should be same!</string>
-    <string name="app_name">Cruun</string>
+    <string name="app_name">Travel Check</string>
     <string name="invaild_username_or_password">Invalid user name or password!</string>
     <string name="problem_register">Email id already exists!</string>
     <string name="login">Log in</string>

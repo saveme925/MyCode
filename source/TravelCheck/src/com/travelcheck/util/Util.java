@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.travelcheck.model.EmailModel;
+import com.travelcheck.model.FavouritesModel;
 
 /**
  * 
@@ -35,6 +36,7 @@ import com.travelcheck.model.EmailModel;
 public class Util {
 
 	private static Context mAppicationContxt;
+	public static List<FavouritesModel> l_contact_list;
 
 	/**
 	 * @param drawbaleResource

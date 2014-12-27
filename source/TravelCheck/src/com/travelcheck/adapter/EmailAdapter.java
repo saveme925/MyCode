@@ -1,6 +1,5 @@
 package com.travelcheck.adapter;
 
-import java.security.spec.KeySpec;
 import java.util.List;
 
 import android.content.Context;
@@ -12,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.pkmmte.circularimageview.CircularImageView;
 import com.travelcheck.R;
+import com.travelcheck.db.DBHelper;
 import com.travelcheck.listener.ClickListenerForSelectEmail;
 import com.travelcheck.model.EmailModel;
 
@@ -25,11 +26,14 @@ public class EmailAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private Context mContext;
 	private List<EmailModel> mCandidateData;
+	private DBHelper m_dbh;
 
-	public EmailAdapter(Context pContext, List<EmailModel> pCandidateData) {
+	public EmailAdapter(Context pContext, List<EmailModel> pCandidateData,
+			DBHelper p_dbh) {
 
 		mContext = pContext;
 		mCandidateData = pCandidateData;
+		m_dbh = p_dbh;
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -40,6 +44,7 @@ public class EmailAdapter extends BaseAdapter {
 		public TextView mName;
 		public ImageView mSelectState;
 		public RelativeLayout mWholeLayout;
+		public CircularImageView mImage;
 
 	}
 
@@ -79,7 +84,7 @@ public class EmailAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		 setOnclickListener();
+		setOnclickListener();
 		setTextOnInputFields();
 
 		return convertView;
@@ -96,13 +101,14 @@ public class EmailAdapter extends BaseAdapter {
 
 		}
 		holder.mName.setText(mModel.getmName());
+		holder.mImage.setImageResource(R.drawable.default_avatar);
 
 	}
 
 	private void setOnclickListener() {
 
 		ClickListenerForSelectEmail l_listener = new ClickListenerForSelectEmail(
-				holder.mSelectState, mContext, mModel);
+				holder.mSelectState, mContext, mModel,m_dbh);
 		holder.mSelectState.setOnClickListener(l_listener);
 
 	}
@@ -113,6 +119,8 @@ public class EmailAdapter extends BaseAdapter {
 				.findViewById(R.id.whole_row_relativelayout);
 		holder.mName = (TextView) pConvertView
 				.findViewById(R.id.candidatename_textview);
+		holder.mImage = (CircularImageView) pConvertView
+				.findViewById(R.id.candidate_profileimage_imageview);
 
 		holder.mSelectState = (ImageView) pConvertView
 				.findViewById(R.id.select_candidate_imageview);
