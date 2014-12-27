@@ -1,18 +1,29 @@
 package com.travelcheck;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.view.LayoutInflater;
@@ -47,12 +58,18 @@ public class DashBoard extends Activity {
 	private ListView mPhoneList;
 	private List<EmailModel> l_emailAddress;
 	private List<PhoneModel> l_phoneNumber;
+	public Button CameraBtn;
+	String extStorageDirectory ;
+	String Image;
+	private static final int CAMERA_REQUEST = 1888; 
+	Bitmap photo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dashboard);
+		setContentView(R.layout.activity_main);
+		extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
 		findViewById();
@@ -66,7 +83,8 @@ public class DashBoard extends Activity {
 
 		mPickContacts = (Button) findViewById(R.id.btn_pickcontacts);
 		mPickContacts.setOnClickListener(pickContactsClickListener);
-
+		CameraBtn=(Button)findViewById(R.id.CameraBtn);
+		CameraBtn.setOnClickListener(cameraClickListener);
 	}
 
 	/**
@@ -82,6 +100,20 @@ public class DashBoard extends Activity {
 			mAddEmail.setBackgroundColor(Color.WHITE);
 			mPhoneList.setVisibility(View.GONE);
 			mEmailList.setVisibility(View.VISIBLE);
+
+		}
+	};
+	/**
+	 * Click listener for camera
+	 */
+
+	private OnClickListener cameraClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+
+			Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+			startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 		}
 	};
@@ -196,7 +228,7 @@ public class DashBoard extends Activity {
 				Cursor pCur = cr.query(
 						ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
 						null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-								+ " = ?", new String[] { id }, null);
+						+ " = ?", new String[] { id }, null);
 				while (pCur.moveToNext()) {
 					String phone = pCur
 							.getString(pCur
@@ -213,7 +245,7 @@ public class DashBoard extends Activity {
 				Cursor emailCur = cr.query(
 						ContactsContract.CommonDataKinds.Email.CONTENT_URI,
 						null, ContactsContract.CommonDataKinds.Email.CONTACT_ID
-								+ " = ?", new String[] { id }, null);
+						+ " = ?", new String[] { id }, null);
 				while (emailCur.moveToNext()) {
 					String email = emailCur
 							.getString(emailCur
@@ -277,5 +309,54 @@ public class DashBoard extends Activity {
 
 		}
 	};
+	//store image in sd-card
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {  
+		if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {  
+			photo = (Bitmap) data.getExtras().get("data"); 
+			OutputStream outStream = null;
+			File file = new File(extStorageDirectory, "Travel_check");
+			try {
 
+				buildAlertMessageNoGps();
+				outStream = new FileOutputStream(file);
+				photo.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+				outStream.flush();
+				outStream.close();
+
+
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+
+		} }
+	//Alert dialog when mobile GPS is disabled
+	private void buildAlertMessageNoGps() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Do you want to share image?")
+		.setCancelable(false)
+		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+				Intent i = new Intent(Intent.ACTION_SEND);
+				i.setType("image/jpg");
+				i.putExtra(Intent.EXTRA_EMAIL, new String[] {"someone@gmail.com"} );
+				i.putExtra(Intent.EXTRA_SUBJECT, "Please find attached image");
+				i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/myImage.gif"));
+				startActivity(i);
+			}
+		})
+		.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+				dialog.cancel();
+			}
+		});
+		final AlertDialog alert = builder.create();
+		alert.show();
+	}
 }
