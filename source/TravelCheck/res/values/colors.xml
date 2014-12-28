@@ -59,7 +59,8 @@
     <color name="holo_red_dark">#cc0000</color>
     
     
-    
+    <color name="dashboard_selected">#6c907e</color>
+    <color name="dashboard_blocks">#7aa28e</color>
     <color name="red">#900</color>
     <color name="GrayLight">#c7cbcf</color>
     <color name="green">#090</color>

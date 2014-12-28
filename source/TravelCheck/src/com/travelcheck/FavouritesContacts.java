@@ -28,8 +28,10 @@ import android.os.Environment;
 import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -46,13 +48,13 @@ import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
 import com.travelcheck.util.Util;
 
-public class FavouritesContacts extends Activity {
+public class FavouritesContacts extends Activity implements OnTouchListener {
 
 	/**
 	 * Global variables
 	 */
 
-	private Button mPickContacts;
+	private TextView mPickContacts;
 	private TextView mAddEmail;
 	private TextView mAddPhoneNumber;
 	private ProgressDialog mProgressDialog = null;
@@ -61,23 +63,26 @@ public class FavouritesContacts extends Activity {
 	private ListView mPhoneList;
 	private List<EmailModel> l_emailAddress;
 	private List<PhoneModel> l_phoneNumber;
-	public Button CameraBtn;
+	private TextView mTakePicture;
 	String extStorageDirectory;
 	String Image;
-	private static final int CAMERA_REQUEST = 1888;
+	public static final int CAMERA_REQUEST = 1888;
 	Bitmap photo;
 	private DBHelper dbh;
+	private TextView mCallFav;
+	private TextView mFollowMe;
+	private TextView mCurrentLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.new_dashboard);
 		extStorageDirectory = Environment.getExternalStorageDirectory()
 				.toString();
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
-//		setContentView(R.layout.dashboard);
 		findViewById();
 	}
 
@@ -87,11 +92,62 @@ public class FavouritesContacts extends Activity {
 
 	private void findViewById() {
 
-		mPickContacts = (Button) findViewById(R.id.btn_pickcontacts);
+		mPickContacts = (TextView) findViewById(R.id.txt_pickcontacts);
+		mPickContacts.setOnTouchListener(this);
 		mPickContacts.setOnClickListener(pickContactsClickListener);
-		CameraBtn = (Button) findViewById(R.id.CameraBtn);
-		CameraBtn.setOnClickListener(cameraClickListener);
+
+		mTakePicture = (TextView) findViewById(R.id.txt_takepicture);
+		mTakePicture.setOnTouchListener(this);
+		mTakePicture.setOnClickListener(cameraClickListener);
+
+		mCallFav = (TextView) findViewById(R.id.txt_callme);
+		mCallFav.setOnTouchListener(this);
+		mCallFav.setOnClickListener(callFavouritesClickListener);
+
+		mFollowMe = (TextView) findViewById(R.id.txt_followme);
+		mFollowMe.setOnTouchListener(this);
+		mFollowMe.setOnClickListener(followMeClickListener);
+
+		mCurrentLocation = (TextView) findViewById(R.id.txt_currentlocation);
+		mCurrentLocation.setOnTouchListener(this);
+		mCurrentLocation.setOnClickListener(findCurrentLocationClickListener);
 	}
+
+	/**
+	 * Click listener for call favorites
+	 */
+
+	private OnClickListener callFavouritesClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+
+		}
+	};
+
+	/**
+	 * Click listener for follow me
+	 */
+
+	private OnClickListener followMeClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+
+		}
+	};
+
+	/**
+	 * Click listener for current location
+	 */
+
+	private OnClickListener findCurrentLocationClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+
+		}
+	};
 
 	/**
 	 * Click listener for show all emails
@@ -372,6 +428,10 @@ public class FavouritesContacts extends Activity {
 
 	}
 
+	/**
+	 * Click listener for dismissing dialog
+	 */
+
 	private OnDismissListener dialogDismissListener = new OnDismissListener() {
 
 		@Override
@@ -396,6 +456,10 @@ public class FavouritesContacts extends Activity {
 
 		}
 	};
+
+	/**
+	 * Return call backs from activity method startActivityForResult
+	 */
 
 	// store image in sd-card
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -454,5 +518,104 @@ public class FavouritesContacts extends Activity {
 				});
 		final AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	/**
+	 * Touch listener for dash board options
+	 */
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+
+		int eventaction = event.getAction();
+		switch (eventaction) {
+		case MotionEvent.ACTION_DOWN:
+
+			makeHighlightView(v);
+
+			break;
+
+		case MotionEvent.ACTION_MOVE:
+
+			makeHighlightView(v);
+			break;
+
+		case MotionEvent.ACTION_UP:
+			makeUnHighlightView(v);
+
+			break;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to Unhighlight selected option from dash board
+	 * 
+	 * @param v
+	 *            selected text view
+	 */
+
+	private void makeUnHighlightView(View v) {
+
+		switch (v.getId()) {
+
+		case R.id.txt_pickcontacts:
+			mPickContacts.setTextColor(Color.parseColor("#0b1a12"));
+			break;
+
+		case R.id.txt_takepicture:
+			mTakePicture.setTextColor(Color.parseColor("#0b1a12"));
+			break;
+
+		case R.id.txt_callme:
+			mCallFav.setTextColor(Color.parseColor("#0b1a12"));
+			break;
+
+		case R.id.txt_followme:
+			mFollowMe.setTextColor(Color.parseColor("#0b1a12"));
+			break;
+
+		case R.id.txt_currentlocation:
+			mCurrentLocation.setTextColor(Color.parseColor("#0b1a12"));
+			break;
+
+		}
+
+	}
+
+	/**
+	 * Method to highlight selected option from dash board
+	 * 
+	 * @param v
+	 *            selected text view
+	 */
+
+	private void makeHighlightView(View v) {
+
+		switch (v.getId()) {
+
+		case R.id.txt_pickcontacts:
+			mPickContacts.setTextColor(Color.WHITE);
+			break;
+
+		case R.id.txt_takepicture:
+			mTakePicture.setTextColor(Color.WHITE);
+			break;
+
+		case R.id.txt_callme:
+			mCallFav.setTextColor(Color.WHITE);
+			break;
+
+		case R.id.txt_followme:
+			mFollowMe.setTextColor(Color.WHITE);
+			break;
+
+		case R.id.txt_currentlocation:
+			mCurrentLocation.setTextColor(Color.WHITE);
+			break;
+
+		}
+
 	}
 }
