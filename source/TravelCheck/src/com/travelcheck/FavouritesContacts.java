@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,11 +22,17 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,7 +42,6 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,7 +54,7 @@ import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
 import com.travelcheck.util.Util;
 
-public class FavouritesContacts extends Activity implements OnTouchListener {
+public class FavouritesContacts extends Activity implements OnTouchListener, OnClickListener {
 
 	/**
 	 * Global variables
@@ -71,7 +77,14 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 	private DBHelper dbh;
 	private TextView mCallFav;
 	private TextView mFollowMe;
-	private TextView mCurrentLocation;
+	LocationManager mLocationManager;
+	public TextView currentLocTxt;
+	 Location location;
+	 Double MyLat, MyLong;
+	   String CityName="";
+	   String StateName="";
+	   String CountryName="";
+	   boolean gps_enabled;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +96,20 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 				.toString();
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
+		 mLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
 		findViewById();
+		//Check Gps enable/disable
+		if ( !mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) 
+			{	gps_enabled=true;
+			buildAlertMessageNoGps();
+			}	
+			
+		else
+		{gps_enabled=false;
+			
+		}
+		
+		
 	}
 
 	/**
@@ -108,11 +134,32 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 		mFollowMe.setOnTouchListener(this);
 		mFollowMe.setOnClickListener(followMeClickListener);
 
-		mCurrentLocation = (TextView) findViewById(R.id.txt_currentlocation);
-		mCurrentLocation.setOnTouchListener(this);
-		mCurrentLocation.setOnClickListener(findCurrentLocationClickListener);
+		currentLocTxt = (TextView) findViewById(R.id.txt_currentlocation);
+		//mCurrentLocation.setOnTouchListener(this);
+		currentLocTxt.setOnClickListener(this);
 	}
 
+	
+	/**
+	 * Method for gps alert
+	 */
+		private void buildAlertMessageNoGps() {
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+			.setCancelable(false)
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+					startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+				}
+			})
+			.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+					dialog.cancel();
+				}
+			});
+			final AlertDialog alert = builder.create();
+			alert.show();
+		}
 	/**
 	 * Click listener for call favorites
 	 */
@@ -121,10 +168,20 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 
 		@Override
 		public void onClick(View v) {
-
+		
 		}
 	};
+	
+	/**
+	 * OnClick method for Location Text
+	 */
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Log.d("MAP","MAP");
+	}
 
+	  
 	/**
 	 * Click listener for follow me
 	 */
@@ -141,13 +198,7 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 	 * Click listener for current location
 	 */
 
-	private OnClickListener findCurrentLocationClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-
-		}
-	};
+	
 
 	/**
 	 * Click listener for show all emails
@@ -489,7 +540,7 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 	}
 
 	// Alert dialog when mobile GPS is disabled
-	private void buildAlertMessageNoGps() {
+	private void ShareImage() {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Do you want to share image?")
 				.setCancelable(false)
@@ -577,7 +628,7 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 			break;
 
 		case R.id.txt_currentlocation:
-			mCurrentLocation.setTextColor(Color.parseColor("#0b1a12"));
+			currentLocTxt.setTextColor(Color.parseColor("#0b1a12"));
 			break;
 
 		}
@@ -612,10 +663,116 @@ public class FavouritesContacts extends Activity implements OnTouchListener {
 			break;
 
 		case R.id.txt_currentlocation:
-			mCurrentLocation.setTextColor(Color.WHITE);
+			currentLocTxt.setTextColor(Color.WHITE);
 			break;
 
 		}
 
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if(mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
+		{
+			getMyCurrentLocation();
+			if (currentLocTxt.getText()=="")
+			{
+				currentLocTxt.setText("View current Location");
+				onClick(currentLocTxt);
+
+			}
+		}
+		}
+	 /** Check the type of GPS Provider available at that instance and  collect the location informations
+    @Output Latitude and Longitude
+   * */
+   void getMyCurrentLocation() {   
+
+   
+       LocationListener locListener = new MyLocationListener(); 
+        try{gps_enabled=mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);}catch(Exception ex){}         
+           //don't start listeners if no provider is enabled
+
+           //if(!gps_enabled && !network_enabled)
+
+               //return false;
+
+           if(gps_enabled){
+        	   mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);             
+
+           }
+
+
+           if(gps_enabled){
+               location=mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+           }         
+
+           /*if(network_enabled && location==null){
+
+        	   mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListener);            
+
+           } 
+           if(network_enabled && location==null)    {
+               location=mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+           }
+*/
+       if (location != null) {         
+
+           MyLat = location.getLatitude();
+           MyLong = location.getLongitude();
+       } 
+       
+       else{
+    	   
+       }
+     //  mLocationManager.removeUpdates(locListener); // removes the periodic updates from location listener to avoid battery drainage. If you want to get location at the periodic intervals call this method using pending intent.
+
+       try
+       {
+//Getting address from found locations.
+       Geocoder geocoder; 
+       List<Address> addresses;
+       geocoder = new Geocoder(this, Locale.getDefault());
+        addresses = geocoder.getFromLocation(MyLat, MyLong, 1);
+       StateName= addresses.get(0).getAdminArea();
+       CityName = addresses.get(0).getLocality();
+       CountryName = addresses.get(0).getCountryName();
+       // you can get more details other than this . like country code, state code, etc.     
+       Log.d("City",CityName);
+       }
+       catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+      /* textView2.setText(""+MyLat);
+       textView3.setText(""+MyLong);*/
+       currentLocTxt.setText(StateName +","+ CityName+"," + CountryName);
+   } 
+
+   // Location listener class. to get location.
+   public class MyLocationListener implements LocationListener {
+       public void onLocationChanged(Location location) {
+           if (location != null) {
+           }
+       }        public void onProviderDisabled(String provider) {
+           // TODO Auto-generated method stub
+       }
+
+       public void onProviderEnabled(String provider) {
+           // TODO Auto-generated method stub
+       }
+
+       public void onStatusChanged(String provider, int status, Bundle extras) {
+           // TODO Auto-generated method stub
+       }
+   }
+
+
+   
+
+	
 }
