@@ -1,8 +1,5 @@
 package com.travelcheck.library.util;
 
-import android.widget.TextView;
-
-import com.travelcheck.R;
 
 /**
  * Class to define the constants used in the application.
@@ -10,7 +7,8 @@ import com.travelcheck.R;
  */
 public class Constants {
 
-	public static String PREF_FILE_NAME = "com.mindstar.prefrences";
+	public static String PREF_FILE_NAME = "com.travelcheck.prefrences";
+	public static String DIRECTORY_PATH = "/TravelCheckApp/Media/Capture/";
 
 	public interface HTTP_METHODS {
 		final String GET = "GET";
@@ -20,6 +18,7 @@ public class Constants {
 	public interface INTENT_CONSTANTS {
 
 		String USER_DETAIL = "USER_DETAIL";
+		int REQUEST_CAMERA	=	100;
 
 	}
 

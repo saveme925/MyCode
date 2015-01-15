@@ -1,10 +1,7 @@
 package com.travelcheck;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +29,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,12 +47,15 @@ import com.travelcheck.adapter.EmailAdapter;
 import com.travelcheck.adapter.FavouriteListAdapter;
 import com.travelcheck.adapter.PhoneAdapter;
 import com.travelcheck.db.DBHelper;
+import com.travelcheck.library.util.Constants;
 import com.travelcheck.model.EmailModel;
 import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
+import com.travelcheck.util.ImageLoadingUtils;
 import com.travelcheck.util.Util;
 
-public class FavouritesContacts extends Activity implements OnTouchListener, OnClickListener {
+public class FavouritesContacts extends Activity implements OnTouchListener,
+		OnClickListener {
 
 	/**
 	 * Global variables
@@ -72,19 +73,19 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 	private TextView mTakePicture;
 	String extStorageDirectory;
 	String Image;
-	public static final int CAMERA_REQUEST = 1888;
 	Bitmap photo;
 	private DBHelper dbh;
 	private TextView mCallFav;
 	private TextView mFollowMe;
 	LocationManager mLocationManager;
 	public TextView currentLocTxt;
-	 Location location;
-	 Double MyLat, MyLong;
-	   String CityName="";
-	   String StateName="";
-	   String CountryName="";
-	   boolean gps_enabled;
+	Location location;
+	Double MyLat, MyLong;
+	String CityName = "";
+	String StateName = "";
+	String CountryName = "";
+	boolean gps_enabled;
+	private ImageLoadingUtils utils;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,22 +95,22 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 		setContentView(R.layout.new_dashboard);
 		extStorageDirectory = Environment.getExternalStorageDirectory()
 				.toString();
+		utils = new ImageLoadingUtils(this);
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
-		 mLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+		mLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
 		findViewById();
-		//Check Gps enable/disable
-		if ( !mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) 
-			{	gps_enabled=true;
+		// Check Gps enable/disable
+		if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			gps_enabled = true;
 			buildAlertMessageNoGps();
-			}	
-			
-		else
-		{gps_enabled=false;
-			
 		}
-		
-		
+
+		else {
+			gps_enabled = false;
+
+		}
+
 	}
 
 	/**
@@ -135,31 +136,37 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 		mFollowMe.setOnClickListener(followMeClickListener);
 
 		currentLocTxt = (TextView) findViewById(R.id.txt_currentlocation);
-		//mCurrentLocation.setOnTouchListener(this);
+		// mCurrentLocation.setOnTouchListener(this);
 		currentLocTxt.setOnClickListener(this);
 	}
 
-	
 	/**
 	 * Method for gps alert
 	 */
-		private void buildAlertMessageNoGps() {
-			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-			.setCancelable(false)
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-					startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-				}
-			})
-			.setNegativeButton("No", new DialogInterface.OnClickListener() {
-				public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-					dialog.cancel();
-				}
-			});
-			final AlertDialog alert = builder.create();
-			alert.show();
-		}
+	private void buildAlertMessageNoGps() {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(
+				"Your GPS seems to be disabled, do you want to enable it?")
+				.setCancelable(false)
+				.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									@SuppressWarnings("unused") final DialogInterface dialog,
+									@SuppressWarnings("unused") final int id) {
+								startActivity(new Intent(
+										android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+							}
+						})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog,
+							@SuppressWarnings("unused") final int id) {
+						dialog.cancel();
+					}
+				});
+		final AlertDialog alert = builder.create();
+		alert.show();
+	}
+
 	/**
 	 * Click listener for call favorites
 	 */
@@ -168,20 +175,19 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 
 		@Override
 		public void onClick(View v) {
-		
+
 		}
 	};
-	
+
 	/**
 	 * OnClick method for Location Text
 	 */
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Log.d("MAP","MAP");
+		Log.d("MAP", "MAP");
 	}
 
-	  
 	/**
 	 * Click listener for follow me
 	 */
@@ -197,8 +203,6 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 	/**
 	 * Click listener for current location
 	 */
-
-	
 
 	/**
 	 * Click listener for show all emails
@@ -227,9 +231,9 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 		@Override
 		public void onClick(View v) {
 
-			Intent cameraIntent = new Intent(
-					android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-			startActivityForResult(cameraIntent, CAMERA_REQUEST);
+			Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			startActivityForResult(cameraIntent,
+					Constants.INTENT_CONSTANTS.REQUEST_CAMERA);
 
 		}
 	};
@@ -514,60 +518,82 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 
 	// store image in sd-card
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-			photo = (Bitmap) data.getExtras().get("data");
-			OutputStream outStream = null;
-			File file = new File(extStorageDirectory, "Travel_check");
-			try {
+		// if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+		// photo = (Bitmap) data.getExtras().get("data");
+		// OutputStream outStream = null;
+		// File file = new File(extStorageDirectory, "Travel_check");
+		// try {
+		//
+		// buildAlertMessageNoGps();
+		// outStream = new FileOutputStream(file);
+		// photo.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+		// outStream.flush();
+		// outStream.close();
+		//
+		// } catch (FileNotFoundException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		//
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		//
+		// }
+		//
+		// }
 
-				buildAlertMessageNoGps();
-				outStream = new FileOutputStream(file);
-				photo.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-				outStream.flush();
-				outStream.close();
+		if (requestCode == Constants.INTENT_CONSTANTS.REQUEST_CAMERA) {
 
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (resultCode == RESULT_OK) {
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					String l_path = data.getDataString();
+					String filePath = Util.compressImage(l_path,
+							FavouritesContacts.this, utils);
+					File l_file = new File(filePath);
+					String selectedImage = Uri.fromFile(l_file).toString();
+					ShareImage(selectedImage);
+					// TODO
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			} else if (resultCode == RESULT_CANCELED) {
+
+				Util.toastMessage(FavouritesContacts.this, "Cancel");
 
 			}
 
 		}
+
 	}
 
-	// Alert dialog when mobile GPS is disabled
-	private void ShareImage() {
+	private void ShareImage(final String p_path) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Do you want to share image?")
 				.setCancelable(false)
 				.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
-							public void onClick(
-									@SuppressWarnings("unused") final DialogInterface dialog,
-									@SuppressWarnings("unused") final int id) {
-								Intent i = new Intent(Intent.ACTION_SEND);
-								i.setType("image/jpg");
-								i.putExtra(Intent.EXTRA_EMAIL,
-										new String[] { "someone@gmail.com" });
-								i.putExtra(Intent.EXTRA_SUBJECT,
-										"Please find attached image");
-								i.putExtra(
-										Intent.EXTRA_STREAM,
-										Uri.parse("file:///mnt/sdcard/myImage.gif"));
-								startActivity(i);
+							public void onClick(final DialogInterface dialog,
+									final int id) {
+								Intent sharingIntent = new Intent(
+										Intent.ACTION_SEND);
+								Uri pathOfUri = Uri.parse(p_path);
+								sharingIntent.setType("image/png");
+								sharingIntent.putExtra(Intent.EXTRA_STREAM,
+										pathOfUri);
+								startActivity(Intent.createChooser(
+										sharingIntent, "Share image using"));
 							}
 						})
 				.setNegativeButton("No", new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog,
-							@SuppressWarnings("unused") final int id) {
+							final int id) {
 						dialog.cancel();
 					}
 				});
 		final AlertDialog alert = builder.create();
+		builder.setTitle("Share Image");
 		alert.show();
 	}
 
@@ -669,110 +695,118 @@ public class FavouritesContacts extends Activity implements OnTouchListener, OnC
 		}
 
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
-		{
+		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			getMyCurrentLocation();
-			if (currentLocTxt.getText()=="")
-			{
+			if (currentLocTxt.getText() == "") {
 				currentLocTxt.setText("View current Location");
 				onClick(currentLocTxt);
 
 			}
 		}
+	}
+
+	/**
+	 * Check the type of GPS Provider available at that instance and collect the
+	 * location informations
+	 * 
+	 * @Output Latitude and Longitude
+	 * */
+	void getMyCurrentLocation() {
+
+		LocationListener locListener = new MyLocationListener();
+		try {
+			gps_enabled = mLocationManager
+					.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		} catch (Exception ex) {
 		}
-	 /** Check the type of GPS Provider available at that instance and  collect the location informations
-    @Output Latitude and Longitude
-   * */
-   void getMyCurrentLocation() {   
+		// don't start listeners if no provider is enabled
 
-   
-       LocationListener locListener = new MyLocationListener(); 
-        try{gps_enabled=mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);}catch(Exception ex){}         
-           //don't start listeners if no provider is enabled
+		// if(!gps_enabled && !network_enabled)
 
-           //if(!gps_enabled && !network_enabled)
+		// return false;
 
-               //return false;
+		if (gps_enabled) {
+			mLocationManager.requestLocationUpdates(
+					LocationManager.GPS_PROVIDER, 0, 0, locListener);
 
-           if(gps_enabled){
-        	   mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);             
+		}
 
-           }
+		if (gps_enabled) {
+			location = mLocationManager
+					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
+		}
 
-           if(gps_enabled){
-               location=mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		/*
+		 * if(network_enabled && location==null){
+		 * 
+		 * mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER
+		 * , 0, 0, locListener);
+		 * 
+		 * } if(network_enabled && location==null) {
+		 * location=mLocationManager.getLastKnownLocation
+		 * (LocationManager.NETWORK_PROVIDER);
+		 * 
+		 * }
+		 */
+		if (location != null) {
 
-           }         
+			MyLat = location.getLatitude();
+			MyLong = location.getLongitude();
+		}
 
-           /*if(network_enabled && location==null){
+		else {
 
-        	   mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListener);            
+		}
+		// mLocationManager.removeUpdates(locListener); // removes the periodic
+		// updates from location listener to avoid battery drainage. If you want
+		// to get location at the periodic intervals call this method using
+		// pending intent.
 
-           } 
-           if(network_enabled && location==null)    {
-               location=mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		try {
+			// Getting address from found locations.
+			Geocoder geocoder;
+			List<Address> addresses;
+			geocoder = new Geocoder(this, Locale.getDefault());
+			addresses = geocoder.getFromLocation(MyLat, MyLong, 1);
+			StateName = addresses.get(0).getAdminArea();
+			CityName = addresses.get(0).getLocality();
+			CountryName = addresses.get(0).getCountryName();
+			// you can get more details other than this . like country code,
+			// state code, etc.
+			Log.d("City", CityName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		/*
+		 * textView2.setText(""+MyLat); textView3.setText(""+MyLong);
+		 */
+		currentLocTxt.setText(StateName + "," + CityName + "," + CountryName);
+	}
 
-           }
-*/
-       if (location != null) {         
+	// Location listener class. to get location.
+	public class MyLocationListener implements LocationListener {
+		public void onLocationChanged(Location location) {
+			if (location != null) {
+			}
+		}
 
-           MyLat = location.getLatitude();
-           MyLong = location.getLongitude();
-       } 
-       
-       else{
-    	   
-       }
-     //  mLocationManager.removeUpdates(locListener); // removes the periodic updates from location listener to avoid battery drainage. If you want to get location at the periodic intervals call this method using pending intent.
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+		}
 
-       try
-       {
-//Getting address from found locations.
-       Geocoder geocoder; 
-       List<Address> addresses;
-       geocoder = new Geocoder(this, Locale.getDefault());
-        addresses = geocoder.getFromLocation(MyLat, MyLong, 1);
-       StateName= addresses.get(0).getAdminArea();
-       CityName = addresses.get(0).getLocality();
-       CountryName = addresses.get(0).getCountryName();
-       // you can get more details other than this . like country code, state code, etc.     
-       Log.d("City",CityName);
-       }
-       catch (Exception e)
-       {
-           e.printStackTrace();
-       }
-      /* textView2.setText(""+MyLat);
-       textView3.setText(""+MyLong);*/
-       currentLocTxt.setText(StateName +","+ CityName+"," + CountryName);
-   } 
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+		}
 
-   // Location listener class. to get location.
-   public class MyLocationListener implements LocationListener {
-       public void onLocationChanged(Location location) {
-           if (location != null) {
-           }
-       }        public void onProviderDisabled(String provider) {
-           // TODO Auto-generated method stub
-       }
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+		}
+	}
 
-       public void onProviderEnabled(String provider) {
-           // TODO Auto-generated method stub
-       }
-
-       public void onStatusChanged(String provider, int status, Bundle extras) {
-           // TODO Auto-generated method stub
-       }
-   }
-
-
-   
-
-	
 }
