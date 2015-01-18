@@ -19,6 +19,7 @@ public class Constants {
 
 		String USER_DETAIL = "USER_DETAIL";
 		int REQUEST_CAMERA	=	100;
+		int REQUEST_SETTINGS	=	200;
 
 	}
 
@@ -27,6 +28,7 @@ public class Constants {
 		final byte SPLASH = 0;
 		final byte MAIN_APP = 1;
 		final byte SHARE_IMAGE = 2;
+		final byte SETTINGS	=	3;
 	}
 
 	public interface DATABASE_VARIABLES {

@@ -4,6 +4,8 @@
 	<item type="id" name="drag_handle" />
     <item type="id" name="click_remove" />
     
+     <string name="open_drawer">Drawer Open</string>
+    <string name="close_drawer">Drawer Close</string>
     
     <string-array name="interpolators">
         <item>Accelerate</item>
@@ -11,6 +13,20 @@
         <item>AccelerateDecelerate</item>
         <item>Decelerate</item>
     </string-array>
+    
+    <string name="pref_send_report">Send crash reports</string>
+    <string name="pref_send_report_summary">Helps to fix bugs</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+    <string name="pref_emergency_header">Emergency message sent</string>
+    <string name="pref_emergency_dialog_title">Emergency message</string>
+    <string name="pref_emergency_message">I\'m in an emergency.</string>
+    <string name="pref_emergency_number">This is my saver</string>
+    
+    
+    <string name="pref_user_profile">EMERGENCY MODE</string>
+    <string name="pref_location_update_setting">Send location update every</string>
+    <string name="pref_emergency_number_header">Emergency number</string>
     
     <string-array name="left_menu_name">
         <item>Home</item>

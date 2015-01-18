@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.travelcheck.FavouritesContacts;
+import com.travelcheck.UserSettingsActivity;
 import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
 
 /**
@@ -27,6 +28,8 @@ public class UiController {
 		case ACTIVITY_STATES.MAIN_APP:
 			intent = new Intent(fromActivity, FavouritesContacts.class);
 			break;
+			
+		
 
 //		case ACTIVITY_STATES.SHARE_IMAGE:
 //			intent = new Intent(fromActivity, MainActivity.class);
@@ -54,6 +57,11 @@ public class UiController {
 		Intent intent = null;
 		switch (toActivityId) {
 
+		
+		case ACTIVITY_STATES.SETTINGS:
+			intent = new Intent(fromActivity, UserSettingsActivity.class);
+			break;
+		
 		// case ACTIVITY_STATES.CALENDER:
 		// // intent = new Intent(fromActivity, CalendarView.class);
 		// break;

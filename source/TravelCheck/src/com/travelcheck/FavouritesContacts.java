@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -28,6 +29,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -40,22 +42,27 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.travelcheck.adapter.EmailAdapter;
 import com.travelcheck.adapter.FavouriteListAdapter;
 import com.travelcheck.adapter.PhoneAdapter;
+import com.travelcheck.app.AppController;
 import com.travelcheck.db.DBHelper;
 import com.travelcheck.library.util.Constants;
+import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
 import com.travelcheck.model.EmailModel;
 import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
 import com.travelcheck.util.ImageLoadingUtils;
 import com.travelcheck.util.Util;
 
-public class FavouritesContacts extends Activity implements OnTouchListener,
-		OnClickListener {
+public class FavouritesContacts extends BaseActivity implements
+		OnTouchListener, OnClickListener {
 
 	/**
 	 * Global variables
@@ -91,15 +98,25 @@ public class FavouritesContacts extends Activity implements OnTouchListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.new_dashboard);
+		// getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+		LayoutInflater l_inflater = LayoutInflater
+				.from(FavouritesContacts.this);
+
+		View l_view = l_inflater.inflate(R.layout.new_dashboard, frameLayout);
+
+		/**
+		 * Setting title and itemChecked
+		 */
+		mDrawerList.setItemChecked(position, true);
+		// setContentView(R.layout.new_dashboard);
 		extStorageDirectory = Environment.getExternalStorageDirectory()
 				.toString();
 		utils = new ImageLoadingUtils(this);
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
 		mLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-		findViewById();
+		findViewById(l_view);
 		// Check Gps enable/disable
 		if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			gps_enabled = true;
@@ -111,31 +128,78 @@ public class FavouritesContacts extends Activity implements OnTouchListener,
 
 		}
 
+		mDrawerList.setOnItemClickListener(listClickListener);
+
+	}
+
+	private OnItemClickListener listClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+
+			openActivity(position);
+
+		}
+	};
+
+	protected void openActivity(int position) {
+
+		mDrawerLayout.closeDrawer(mDrawerList);
+		BaseActivity.position = position; // Setting currently selected position
+											// in this field so that it will be
+											// available in our child
+											// activities.
+
+		switch (position) {
+		case 2:
+
+			AppController.handleEventForResult(FavouritesContacts.this,
+					ACTIVITY_STATES.SETTINGS,
+					Constants.INTENT_CONSTANTS.REQUEST_SETTINGS, "");
+
+			break;
+		}
+
+	}
+
+	private void displaySharedPreferences() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(FavouritesContacts.this);
+
+		String l_emr_message = prefs.getString("prefEmergencyMessage",
+				"I\'m in an emergency.");
+		String l_emr_contact = prefs.getString("prefEmergencyNumber", "");
+		int l_emr_time = prefs.getInt("timeFrequency", 5);
+
 	}
 
 	/**
 	 * Method to find id's for all user input
+	 * 
+	 * @param p_view
 	 */
 
-	private void findViewById() {
+	private void findViewById(View p_view) {
 
-		mPickContacts = (TextView) findViewById(R.id.txt_pickcontacts);
+		mPickContacts = (TextView) p_view.findViewById(R.id.txt_pickcontacts);
 		mPickContacts.setOnTouchListener(this);
 		mPickContacts.setOnClickListener(pickContactsClickListener);
 
-		mTakePicture = (TextView) findViewById(R.id.txt_takepicture);
+		mTakePicture = (TextView) p_view.findViewById(R.id.txt_takepicture);
 		mTakePicture.setOnTouchListener(this);
 		mTakePicture.setOnClickListener(cameraClickListener);
 
-		mCallFav = (TextView) findViewById(R.id.txt_callme);
+		mCallFav = (TextView) p_view.findViewById(R.id.txt_callme);
 		mCallFav.setOnTouchListener(this);
 		mCallFav.setOnClickListener(callFavouritesClickListener);
 
-		mFollowMe = (TextView) findViewById(R.id.txt_followme);
+		mFollowMe = (TextView) p_view.findViewById(R.id.txt_followme);
 		mFollowMe.setOnTouchListener(this);
 		mFollowMe.setOnClickListener(followMeClickListener);
 
-		currentLocTxt = (TextView) findViewById(R.id.txt_currentlocation);
+		currentLocTxt = (TextView) p_view
+				.findViewById(R.id.txt_currentlocation);
 		// mCurrentLocation.setOnTouchListener(this);
 		currentLocTxt.setOnClickListener(this);
 	}
@@ -518,29 +582,6 @@ public class FavouritesContacts extends Activity implements OnTouchListener,
 
 	// store image in sd-card
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-		// photo = (Bitmap) data.getExtras().get("data");
-		// OutputStream outStream = null;
-		// File file = new File(extStorageDirectory, "Travel_check");
-		// try {
-		//
-		// buildAlertMessageNoGps();
-		// outStream = new FileOutputStream(file);
-		// photo.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-		// outStream.flush();
-		// outStream.close();
-		//
-		// } catch (FileNotFoundException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		//
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		//
-		// }
-		//
-		// }
 
 		if (requestCode == Constants.INTENT_CONSTANTS.REQUEST_CAMERA) {
 
@@ -562,6 +603,14 @@ public class FavouritesContacts extends Activity implements OnTouchListener,
 
 				Util.toastMessage(FavouritesContacts.this, "Cancel");
 
+			}
+
+		} else if (requestCode == Constants.INTENT_CONSTANTS.REQUEST_SETTINGS) {
+
+			try {
+				displaySharedPreferences();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 		}

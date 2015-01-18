@@ -57,6 +57,7 @@ public class Utility {
 		return false;
 	}
 
+	
 	public static void popupCustomDialog(final Context context, String title,
 			String message, String positiveText, String negText) {
 		AlertDialog.Builder dialogdbuilder = new AlertDialog.Builder(context);

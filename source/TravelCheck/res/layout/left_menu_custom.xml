@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.gji.activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dashboard_blocks"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/whole_row_relativelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/image_relativelayout"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" >
+
+            <ImageView
+                android:id="@+id/option_image_imageview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/ic_action" >
+            </ImageView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/option_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/image_relativelayout"
+            android:text="3.0"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000" />
+    </RelativeLayout>
+
+</LinearLayout>

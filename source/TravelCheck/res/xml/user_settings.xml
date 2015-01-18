@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_user_profile" >
+        <EditTextPreference
+            android:defaultValue="@string/pref_emergency_message"
+            android:dialogTitle="@string/pref_emergency_dialog_title"
+            android:key="prefEmergencyMessage"
+            android:summary="@string/pref_emergency_message"
+            android:title="@string/pref_emergency_header" />
+
+        <ListPreference
+            android:entries="@array/timeFrequency"
+            android:entryValues="@array/timeFrequencyValues"
+            android:key="preftimeFrequency"
+            android:summary="@string/pref_location_update_setting"
+            android:title="@string/pref_location_update_setting" />
+
+        <EditTextPreference
+            android:key="prefEmergencyNumber"
+            android:summary="@string/pref_emergency_number"
+            android:title="@string/pref_emergency_number_header" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
