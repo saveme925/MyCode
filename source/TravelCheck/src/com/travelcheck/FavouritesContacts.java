@@ -260,7 +260,8 @@ public class FavouritesContacts extends BaseActivity implements
 
 		@Override
 		public void onClick(View v) {
-
+			Intent i=new Intent(FavouritesContacts.this,Follow_me.class);
+			startActivity(i);
 		}
 	};
 
@@ -700,6 +701,7 @@ public class FavouritesContacts extends BaseActivity implements
 
 		case R.id.txt_followme:
 			mFollowMe.setTextColor(Color.parseColor("#0b1a12"));
+			
 			break;
 
 		case R.id.txt_currentlocation:

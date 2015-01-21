@@ -41,6 +41,8 @@
         </activity>
         <activity android:name="com.travelcheck.UserSettingsActivity"
              />
+         <activity android:name="com.travelcheck.Follow_me"
+             />
         <activity
             android:name="com.travelcheck.FavouritesContacts"
             android:configChanges="orientation|keyboardHidden"
