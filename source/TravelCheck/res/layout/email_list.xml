@@ -2,9 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#fff"
+   android:background="#e3e3e3"
     android:orientation="vertical" >
 
+    <include
+        android:id="@+id/top_header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        layout="@layout/header" />
+    
     <LinearLayout
         android:id="@+id/bottom_bar_linearlayout"
         android:layout_width="fill_parent"
@@ -24,18 +31,11 @@
             android:textColor="#000" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_above="@id/bottom_bar_linearlayout"
-        android:background="#a0a0a0" />
-
     <LinearLayout
         android:id="@+id/topheader_linearlayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/top_header"
         android:orientation="horizontal" >
 
         <TextView
@@ -79,50 +79,62 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/dark_grey" />
+            android:background="#39845E" />
 
         <TextView
             android:id="@+id/addphonenumber_bottom_textview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/dark_grey"
+            android:background="#39845E"
             android:visibility="invisible" />
     </LinearLayout>
 
+    
     <ListView
         android:id="@+id/email_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/view"
-        android:layout_below="@id/header_bottom_linearlayout"
-        android:layout_marginLeft="3dp"
-        android:choiceMode="multipleChoice"
-        android:divider="#a0a0a0"
-        android:dividerHeight="1px"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/topheader_linearlayout"
+        android:layout_marginTop="5dp"
+        android:descendantFocusability="afterDescendants"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
+        android:layout_above="@id/bottom_bar_linearlayout"
+        android:drawSelectorOnTop="true"
         android:fadingEdge="none"
-        android:fastScrollEnabled="true"
-        android:listSelector="@android:color/transparent"
-        android:scrollbarSize="2dip"
+        android:hapticFeedbackEnabled="true"
+        android:layout_marginLeft="10dp"
+        android:paddingRight="2dp"
+        android:persistentDrawingCache="scrolling"
+        android:scrollbarSize="5dip"
         android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@drawable/scrollbarcolor" />
-
+        android:scrollbarThumbVertical="@drawable/scrollbarcolor" >
+    </ListView>
+    
     <ListView
         android:id="@+id/phone_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/view"
-        android:layout_below="@id/header_bottom_linearlayout"
-        android:layout_marginLeft="3dp"
-        android:choiceMode="singleChoice"
-        android:divider="#a0a0a0"
-        android:dividerHeight="1px"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_above="@id/bottom_bar_linearlayout"
+        android:layout_below="@id/topheader_linearlayout"
+        android:descendantFocusability="afterDescendants"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
+        android:drawSelectorOnTop="true"
         android:fadingEdge="none"
-        android:fastScrollEnabled="true"
-        android:listSelector="@android:color/transparent"
-        android:scrollbarSize="2dip"
+        android:hapticFeedbackEnabled="true"
+        android:layout_marginLeft="10dp"
+        android:paddingRight="2dp"
+        android:visibility="gone"
+        android:persistentDrawingCache="scrolling"
+        android:scrollbarSize="5dip"
         android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@drawable/scrollbarcolor"
-        android:visibility="gone" />
-
+        android:scrollbarThumbVertical="@drawable/scrollbarcolor" >
+    </ListView>
+    
+    
 </RelativeLayout>

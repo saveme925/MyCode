@@ -1,133 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.drawer.bottombardrawer.BottomBarDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bbdl="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#39845E"
-    android:orientation="vertical" >
+    bbdl:bottomBarHeight="50dp" >
 
-    <LinearLayout
-        android:id="@+id/top_bar_linearlayout"
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:layout_above="@id/bottom_bar_linearlayout"
-        android:layout_alignParentTop="true"
+    <RelativeLayout
+        android:id="@android:id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#39845E"
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/top_bar_linearlayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="1dp"
-                android:layout_marginRight="1dp"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/dashboard_blocks"
-                android:clickable="true"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/txt_takepicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/camera"
-                    android:text="Take picture"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#0b1a12" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/dashboard_blocks"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/txt_takepicture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/camera"
+                        android:text="Take picture"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#0b1a12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/dashboard_blocks"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/txt_pickcontacts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/favourites"
+                        android:text="Make Favourites"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#0b1a12" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginBottom="1dp"
-                android:gravity="center"
-                android:background="@color/dashboard_blocks"
-                android:clickable="true"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/txt_pickcontacts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/favourites"
-                    android:text="Make Favourites"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#0b1a12" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/dashboard_blocks"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/txt_callme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/call"
+                        android:text="Call Favorites"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#0b1a12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/dashboard_blocks"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/txt_followme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/follow_me"
+                        android:text="Follow Me"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#0b1a12" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dashboard_blocks" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@color/dashboard_blocks"
-                android:clickable="true"
-                android:orientation="horizontal" >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/bottom_layout" />
+    </FrameLayout>
 
-                <TextView
-                    android:id="@+id/txt_callme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/call"
-                    android:text="Call Favorites"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#0b1a12" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@color/dashboard_blocks"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/txt_followme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/follow_me"
-                    android:text="Follow Me"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#0b1a12" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottom_bar_linearlayout"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
-        android:background="@color/dashboard_blocks"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/txt_currentlocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawableLeft="@drawable/location"
-            android:text="Set current location"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#0b1a12" />
-    </LinearLayout>
-
-</RelativeLayout>
+</com.drawer.bottombardrawer.BottomBarDrawerLayout>

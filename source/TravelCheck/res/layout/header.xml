@@ -11,9 +11,10 @@
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="-10dp"
-        android:paddingRight="15dp"
+        android:background="#39845E"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingRight="15dp" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,5 +32,23 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#fff" />
+
+    <LinearLayout
+        android:id="@+id/add_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:visibility="gone"
+        android:paddingRight="5dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/add_fav" />
+    </LinearLayout>
 
 </RelativeLayout>

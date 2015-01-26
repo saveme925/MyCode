@@ -114,6 +114,7 @@ public class FavouriteListAdapter extends BaseAdapter {
 				.findViewById(R.id.candidate_profileimage_imageview);
 		holder.mSelectState = (ImageView) pConvertView
 				.findViewById(R.id.select_candidate_imageview);
+		holder.mSelectState.setVisibility(View.INVISIBLE);
 
 	}
 

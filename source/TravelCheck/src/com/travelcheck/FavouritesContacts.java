@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -20,19 +18,17 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,7 +43,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.drawer.bottombardrawer.BottomBarDrawerLayout;
+import com.drawer.bottombardrawer.BottomBarDrawerLayout.DrawerListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.travelcheck.adapter.EmailAdapter;
 import com.travelcheck.adapter.FavouriteListAdapter;
 import com.travelcheck.adapter.PhoneAdapter;
@@ -58,16 +64,15 @@ import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
 import com.travelcheck.model.EmailModel;
 import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
+import com.travelcheck.util.AppLocationService;
 import com.travelcheck.util.ImageLoadingUtils;
+import com.travelcheck.util.LocationAddress;
 import com.travelcheck.util.Util;
 
-public class FavouritesContacts extends BaseActivity implements
-		OnTouchListener, OnClickListener {
-
+public class FavouritesContacts extends BaseActivity implements OnTouchListener {
 	/**
 	 * Global variables
 	 */
-
 	private TextView mPickContacts;
 	private TextView mAddEmail;
 	private TextView mAddPhoneNumber;
@@ -78,27 +83,31 @@ public class FavouritesContacts extends BaseActivity implements
 	private List<EmailModel> l_emailAddress;
 	private List<PhoneModel> l_phoneNumber;
 	private TextView mTakePicture;
+	private GoogleMap googleMap;
+	private MarkerOptions mOptions;
 	String extStorageDirectory;
 	String Image;
 	Bitmap photo;
 	private DBHelper dbh;
 	private TextView mCallFav;
 	private TextView mFollowMe;
-	LocationManager mLocationManager;
+	// LocationManager mLocationManager;
 	public TextView currentLocTxt;
-	Location location;
-	Double MyLat, MyLong;
+	private Location location;
+	private Double mLatitude, mLongitude;
 	String CityName = "";
 	String StateName = "";
 	String CountryName = "";
 	boolean gps_enabled;
 	private ImageLoadingUtils utils;
+	private AppLocationService mAppLocationService;
+	private TextView mEmailListBottom;
+	private TextView mPhoneListBottom;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		// getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
 		LayoutInflater l_inflater = LayoutInflater
 				.from(FavouritesContacts.this);
@@ -109,27 +118,38 @@ public class FavouritesContacts extends BaseActivity implements
 		 * Setting title and itemChecked
 		 */
 		mDrawerList.setItemChecked(position, true);
-		// setContentView(R.layout.new_dashboard);
 		extStorageDirectory = Environment.getExternalStorageDirectory()
 				.toString();
 		utils = new ImageLoadingUtils(this);
 		l_emailAddress = new ArrayList<EmailModel>();
 		l_phoneNumber = new ArrayList<PhoneModel>();
-		mLocationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+		mAppLocationService = new AppLocationService(FavouritesContacts.this);
 		findViewById(l_view);
-		// Check Gps enable/disable
-		if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			gps_enabled = true;
-			buildAlertMessageNoGps();
-		}
-
-		else {
-			gps_enabled = false;
-
-		}
-
+		getLatLong();
 		mDrawerList.setOnItemClickListener(listClickListener);
 
+	}
+
+	private void getLatLong() {
+
+		try {
+
+			Location gpsLocation = mAppLocationService
+					.getLocation(LocationManager.GPS_PROVIDER);
+			if (gpsLocation != null) {
+				mLatitude = gpsLocation.getLatitude();
+				mLongitude = gpsLocation.getLongitude();
+				LocationAddress.getAddressFromLocation(mLatitude, mLongitude,
+						getApplicationContext(), new GeocoderHandler());
+
+			} else {
+				buildAlertMessageNoGps();
+			}
+		} catch (Exception e) {
+			Util.toastMessage(FavouritesContacts.this,
+					"No location found this time!");
+
+		}
 	}
 
 	private OnItemClickListener listClickListener = new OnItemClickListener() {
@@ -142,6 +162,8 @@ public class FavouritesContacts extends BaseActivity implements
 
 		}
 	};
+	private LinearLayout mBottomLayout;
+	private BottomBarDrawerLayout mSlideInLayout;
 
 	protected void openActivity(int position) {
 
@@ -181,6 +203,10 @@ public class FavouritesContacts extends BaseActivity implements
 	 */
 
 	private void findViewById(View p_view) {
+		mSlideInLayout = (BottomBarDrawerLayout) findViewById(R.id.drawerLayout);
+		mSlideInLayout.setDrawerListener(sliderDrawerListsner);
+		mBottomLayout = (LinearLayout) p_view
+				.findViewById(R.id.bottom_bar_linearlayout);
 
 		mPickContacts = (TextView) p_view.findViewById(R.id.txt_pickcontacts);
 		mPickContacts.setOnTouchListener(this);
@@ -200,9 +226,33 @@ public class FavouritesContacts extends BaseActivity implements
 
 		currentLocTxt = (TextView) p_view
 				.findViewById(R.id.txt_currentlocation);
-		// mCurrentLocation.setOnTouchListener(this);
-		currentLocTxt.setOnClickListener(this);
+
 	}
+
+	private DrawerListener sliderDrawerListsner = new DrawerListener() {
+
+		@Override
+		public void onDrawerStateChanged(int newState) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onDrawerSlide(View drawerView, float slideOffset) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onDrawerOpened(View drawerView) {
+
+		}
+
+		@Override
+		public void onDrawerClosed(View drawerView) {
+
+		}
+	};
 
 	/**
 	 * Method for gps alert
@@ -244,15 +294,6 @@ public class FavouritesContacts extends BaseActivity implements
 	};
 
 	/**
-	 * OnClick method for Location Text
-	 */
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		Log.d("MAP", "MAP");
-	}
-
-	/**
 	 * Click listener for follow me
 	 */
 
@@ -260,7 +301,7 @@ public class FavouritesContacts extends BaseActivity implements
 
 		@Override
 		public void onClick(View v) {
-			Intent i=new Intent(FavouritesContacts.this,Follow_me.class);
+			Intent i = new Intent(FavouritesContacts.this, Follow_me.class);
 			startActivity(i);
 		}
 	};
@@ -401,9 +442,7 @@ public class FavouritesContacts extends BaseActivity implements
 
 		}
 	};
-	private TextView mEmailListBottom;
-	private TextView mPhoneListBottom;
-
+	
 	/**
 	 * Method to pick all emails and phone number from device
 	 * 
@@ -468,9 +507,15 @@ public class FavouritesContacts extends BaseActivity implements
 		final LayoutInflater inflator = LayoutInflater
 				.from(FavouritesContacts.this);
 		View view = inflator.inflate(R.layout.favourite_list, null);
+		
+		TextView l_header	=	(TextView) view.findViewById(R.id.heading);
+		l_header.setText("Favourites");
+		LinearLayout l_slider	=	(LinearLayout) view.findViewById(R.id.slider_linearlayout);
+		l_slider.setVisibility(View.GONE);
+		LinearLayout mAddFavouites	=	(LinearLayout) view.findViewById(R.id.add_linearlayout);
+		mAddFavouites.setVisibility(View.VISIBLE);
 		mEmailList = (ListView) view.findViewById(R.id.favourite_list);
-		TextView mAddFav = (TextView) view.findViewById(R.id.add_button);
-		mAddFav.setOnClickListener(makeFavClickListener);
+		mAddFavouites.setOnClickListener(makeFavClickListener);
 		builder.setContentView(view);
 		FavouriteListAdapter l_fav_adapter = new FavouriteListAdapter(
 				FavouritesContacts.this, Util.l_contact_list);
@@ -518,6 +563,11 @@ public class FavouritesContacts extends BaseActivity implements
 		final LayoutInflater inflator = LayoutInflater
 				.from(FavouritesContacts.this);
 		View view = inflator.inflate(R.layout.email_list, null);
+		TextView l_header	=	(TextView) view.findViewById(R.id.heading);
+		l_header.setText("My Contacts");
+		LinearLayout l_slider	=	(LinearLayout) view.findViewById(R.id.slider_linearlayout);
+		l_slider.setVisibility(View.GONE);
+		
 		mEmailList = (ListView) view.findViewById(R.id.email_list);
 		mPhoneList = (ListView) view.findViewById(R.id.phone_list);
 		mEmailListBottom = (TextView) view
@@ -547,6 +597,9 @@ public class FavouritesContacts extends BaseActivity implements
 		builder.show();
 
 	}
+	
+	
+	
 
 	/**
 	 * Click listener for dismissing dialog
@@ -701,7 +754,7 @@ public class FavouritesContacts extends BaseActivity implements
 
 		case R.id.txt_followme:
 			mFollowMe.setTextColor(Color.parseColor("#0b1a12"));
-			
+
 			break;
 
 		case R.id.txt_currentlocation:
@@ -751,112 +804,65 @@ public class FavouritesContacts extends BaseActivity implements
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			getMyCurrentLocation();
-			if (currentLocTxt.getText() == "") {
-				currentLocTxt.setText("View current Location");
-				onClick(currentLocTxt);
-
-			}
-		}
 	}
+
 
 	/**
-	 * Check the type of GPS Provider available at that instance and collect the
-	 * location informations
+	 * function to load map. If map is not created it will create it for you
 	 * 
-	 * @Output Latitude and Longitude
+	 * @param p_locationAddress
 	 * */
-	void getMyCurrentLocation() {
-
-		LocationListener locListener = new MyLocationListener();
-		try {
-			gps_enabled = mLocationManager
-					.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		} catch (Exception ex) {
-		}
-		// don't start listeners if no provider is enabled
-
-		// if(!gps_enabled && !network_enabled)
-
-		// return false;
-
-		if (gps_enabled) {
-			mLocationManager.requestLocationUpdates(
-					LocationManager.GPS_PROVIDER, 0, 0, locListener);
-
-		}
-
-		if (gps_enabled) {
-			location = mLocationManager
-					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-		}
-
-		/*
-		 * if(network_enabled && location==null){
-		 * 
-		 * mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER
-		 * , 0, 0, locListener);
-		 * 
-		 * } if(network_enabled && location==null) {
-		 * location=mLocationManager.getLastKnownLocation
-		 * (LocationManager.NETWORK_PROVIDER);
-		 * 
-		 * }
-		 */
-		if (location != null) {
-
-			MyLat = location.getLatitude();
-			MyLong = location.getLongitude();
-		}
-
-		else {
-
-		}
-		// mLocationManager.removeUpdates(locListener); // removes the periodic
-		// updates from location listener to avoid battery drainage. If you want
-		// to get location at the periodic intervals call this method using
-		// pending intent.
+	private void initilizeMap(String p_locationAddress) {
 
 		try {
-			// Getting address from found locations.
-			Geocoder geocoder;
-			List<Address> addresses;
-			geocoder = new Geocoder(this, Locale.getDefault());
-			addresses = geocoder.getFromLocation(MyLat, MyLong, 1);
-			StateName = addresses.get(0).getAdminArea();
-			CityName = addresses.get(0).getLocality();
-			CountryName = addresses.get(0).getCountryName();
-			// you can get more details other than this . like country code,
-			// state code, etc.
-			Log.d("City", CityName);
+			if (googleMap == null) {
+				googleMap = ((MapFragment) getFragmentManager()
+						.findFragmentById(R.id.map)).getMap();
+				// googleMap = ((SupportMapFragment) getSupportFragmentManager()
+				// .findFragmentById(R.id.map)).getMap();
+
+				mOptions = new MarkerOptions().position(
+						new LatLng(mLatitude, mLongitude)).title(
+						p_locationAddress);
+				mOptions.icon(BitmapDescriptorFactory
+						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+				googleMap.addMarker(mOptions);
+
+				CameraPosition cameraPosition = new CameraPosition.Builder()
+						.target(new LatLng(mLatitude, mLongitude)).zoom(12)
+						.build();
+
+				googleMap.animateCamera(CameraUpdateFactory
+						.newCameraPosition(cameraPosition));
+
+				googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+				// check if map is created successfully or not
+				if (googleMap == null) {
+					Toast.makeText(getApplicationContext(),
+							"Sorry! unable to create maps", Toast.LENGTH_SHORT)
+							.show();
+				}
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+
 		}
-		/*
-		 * textView2.setText(""+MyLat); textView3.setText(""+MyLong);
-		 */
-		currentLocTxt.setText(StateName + "," + CityName + "," + CountryName);
 	}
 
-	// Location listener class. to get location.
-	public class MyLocationListener implements LocationListener {
-		public void onLocationChanged(Location location) {
-			if (location != null) {
+
+	private class GeocoderHandler extends Handler {
+		@Override
+		public void handleMessage(Message message) {
+			String locationAddress;
+			switch (message.what) {
+			case 1:
+				Bundle bundle = message.getData();
+				locationAddress = bundle.getString("address");
+				break;
+			default:
+				locationAddress = null;
 			}
-		}
-
-		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-		}
-
-		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
+			initilizeMap(locationAddress);
 		}
 	}
 

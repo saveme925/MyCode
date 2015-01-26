@@ -2,47 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#fff"
+    android:background="#e3e3e3"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/bottom_bar_linearlayout"
+    <include
+        android:id="@+id/top_header"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical" >
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        layout="@layout/header" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="#a0a0a0" />
-        
-        
-        <TextView
-            android:id="@+id/add_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Add contacts to favourites"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000" />
-        
-        
-        
-    </LinearLayout>
 
     <ListView
-        android:layout_marginBottom="5dp"
         android:id="@+id/favourite_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/bottom_bar_linearlayout"
-        android:divider="#a0a0a0"
-        android:dividerHeight="1px"
+        android:layout_below="@id/top_header"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:descendantFocusability="afterDescendants"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
+        android:drawSelectorOnTop="true"
         android:fadingEdge="none"
-        android:listSelector="@android:color/transparent"
-        android:scrollbarSize="2dip"
+        android:hapticFeedbackEnabled="true"
+        android:layout_marginLeft="10dp"
+        android:paddingRight="2dp"
+        android:persistentDrawingCache="scrolling"
+        android:scrollbarSize="5dip"
         android:scrollbarStyle="outsideInset"
         android:scrollbarThumbVertical="@drawable/scrollbarcolor" >
     </ListView>

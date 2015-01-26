@@ -7,30 +7,21 @@ import java.util.Observer;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.travelcheck.adapter.LeftMenuAdapter;
-import com.travelcheck.app.AppController;
-import com.travelcheck.library.util.Constants;
-import com.travelcheck.library.util.Utility;
-import com.travelcheck.library.util.Constants.ACTIVITY_STATES;
 import com.travelcheck.model.LeftMenuModel;
 
 /**
@@ -186,7 +177,9 @@ public class BaseActivity extends Activity implements Observer {
 	private void initializeActionBar() {
 
 		mActionBar = getActionBar();
-		mActionBar.setDisplayShowHomeEnabled(false);
+		mActionBar.setBackgroundDrawable(new ColorDrawable(Color
+				.parseColor("#39845E")));
+		 mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mInflater = LayoutInflater.from(this);
 		mCustomView = mInflater.inflate(R.layout.header, null);
