@@ -45,8 +45,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drawer.bottombardrawer.BottomBarDrawerLayout;
-import com.drawer.bottombardrawer.BottomBarDrawerLayout.DrawerListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -65,6 +63,8 @@ import com.travelcheck.model.EmailModel;
 import com.travelcheck.model.FavouritesModel;
 import com.travelcheck.model.PhoneModel;
 import com.travelcheck.util.AppLocationService;
+import com.travelcheck.util.BottomBarDrawerLayout;
+import com.travelcheck.util.BottomBarDrawerLayout.DrawerListener;
 import com.travelcheck.util.ImageLoadingUtils;
 import com.travelcheck.util.LocationAddress;
 import com.travelcheck.util.Util;

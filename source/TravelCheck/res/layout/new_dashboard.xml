@@ -1,4 +1,5 @@
-<com.drawer.bottombardrawer.BottomBarDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.travelcheck.util.BottomBarDrawerLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:bbdl="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
@@ -129,4 +130,4 @@
             layout="@layout/bottom_layout" />
     </FrameLayout>
 
-</com.drawer.bottombardrawer.BottomBarDrawerLayout>
+</com.travelcheck.util.BottomBarDrawerLayout>
