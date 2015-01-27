@@ -135,7 +135,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 		try {
 
 			Location gpsLocation = mAppLocationService
-					.getLocation(LocationManager.GPS_PROVIDER);
+					.getLocation(FavouritesContacts.this);
 			if (gpsLocation != null) {
 				mLatitude = gpsLocation.getLatitude();
 				mLongitude = gpsLocation.getLongitude();
@@ -442,7 +442,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 
 		}
 	};
-	
+
 	/**
 	 * Method to pick all emails and phone number from device
 	 * 
@@ -507,12 +507,14 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 		final LayoutInflater inflator = LayoutInflater
 				.from(FavouritesContacts.this);
 		View view = inflator.inflate(R.layout.favourite_list, null);
-		
-		TextView l_header	=	(TextView) view.findViewById(R.id.heading);
+
+		TextView l_header = (TextView) view.findViewById(R.id.heading);
 		l_header.setText("Favourites");
-		LinearLayout l_slider	=	(LinearLayout) view.findViewById(R.id.slider_linearlayout);
+		LinearLayout l_slider = (LinearLayout) view
+				.findViewById(R.id.slider_linearlayout);
 		l_slider.setVisibility(View.GONE);
-		LinearLayout mAddFavouites	=	(LinearLayout) view.findViewById(R.id.add_linearlayout);
+		LinearLayout mAddFavouites = (LinearLayout) view
+				.findViewById(R.id.add_linearlayout);
 		mAddFavouites.setVisibility(View.VISIBLE);
 		mEmailList = (ListView) view.findViewById(R.id.favourite_list);
 		mAddFavouites.setOnClickListener(makeFavClickListener);
@@ -563,11 +565,12 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 		final LayoutInflater inflator = LayoutInflater
 				.from(FavouritesContacts.this);
 		View view = inflator.inflate(R.layout.email_list, null);
-		TextView l_header	=	(TextView) view.findViewById(R.id.heading);
+		TextView l_header = (TextView) view.findViewById(R.id.heading);
 		l_header.setText("My Contacts");
-		LinearLayout l_slider	=	(LinearLayout) view.findViewById(R.id.slider_linearlayout);
+		LinearLayout l_slider = (LinearLayout) view
+				.findViewById(R.id.slider_linearlayout);
 		l_slider.setVisibility(View.GONE);
-		
+
 		mEmailList = (ListView) view.findViewById(R.id.email_list);
 		mPhoneList = (ListView) view.findViewById(R.id.phone_list);
 		mEmailListBottom = (TextView) view
@@ -597,9 +600,6 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 		builder.show();
 
 	}
-	
-	
-	
 
 	/**
 	 * Click listener for dismissing dialog
@@ -806,7 +806,6 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 		super.onResume();
 	}
 
-
 	/**
 	 * function to load map. If map is not created it will create it for you
 	 * 
@@ -848,7 +847,6 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 
 		}
 	}
-
 
 	private class GeocoderHandler extends Handler {
 		@Override

@@ -8,11 +8,16 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 public class AppLocationService extends Service implements LocationListener {
 
 	protected LocationManager locationManager;
 	Location location;
+	private boolean isGPSEnabled;
+	private boolean isNetworkEnabled;
+	private double latitude;
+	private double longitude;
 
 	private static final long MIN_DISTANCE_FOR_UPDATE = 10;
 	private static final long MIN_TIME_FOR_UPDATE = 1000 * 60 * 2;
@@ -22,24 +27,71 @@ public class AppLocationService extends Service implements LocationListener {
 				.getSystemService(LOCATION_SERVICE);
 	}
 
-	public Location getLocation(String provider) {
-		if (locationManager.isProviderEnabled(provider)) {
-			locationManager.requestLocationUpdates(provider,
-					MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
-			if (locationManager != null) {
-				location = locationManager.getLastKnownLocation(provider);
-				return location;
+	
+
+	public Location getLocation(Context p_context) {
+		try {
+			locationManager = (LocationManager) p_context
+					.getSystemService(LOCATION_SERVICE);
+
+			// getting GPS status
+			isGPSEnabled = locationManager
+					.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+			// getting network status
+			isNetworkEnabled = locationManager
+					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+			if (!isGPSEnabled && !isNetworkEnabled) {
+				// no network provider is enabled
+			} else {
+				if (isNetworkEnabled) {
+					locationManager.requestLocationUpdates(
+							LocationManager.NETWORK_PROVIDER,
+							MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
+					Log.d("Network", "Network Enabled");
+					if (locationManager != null) {
+						location = locationManager
+								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+						if (location != null) {
+							latitude = location.getLatitude();
+							longitude = location.getLongitude();
+						}
+					}
+				}
+				// if GPS Enabled get lat/long using GPS Services
+				if (isGPSEnabled) {
+					if (location == null) {
+						locationManager.requestLocationUpdates(
+								LocationManager.GPS_PROVIDER,
+								MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE,
+								this);
+						Log.d("GPS", "GPS Enabled");
+						if (locationManager != null) {
+							location = locationManager
+									.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+							if (location != null) {
+								latitude = location.getLatitude();
+								longitude = location.getLongitude();
+							}
+						}
+					}
+				}
 			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
+
+		return location;
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
 
 		if (location != null) {
-			
-			this.location	=	location;
+
+			this.location = location;
 		}
 
 	}
