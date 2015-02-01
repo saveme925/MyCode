@@ -28,10 +28,24 @@
         android:hapticFeedbackEnabled="true"
         android:layout_marginLeft="10dp"
         android:paddingRight="2dp"
+        
         android:persistentDrawingCache="scrolling"
         android:scrollbarSize="5dip"
         android:scrollbarStyle="outsideInset"
         android:scrollbarThumbVertical="@drawable/scrollbarcolor" >
     </ListView>
+    
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:id="@+id/nofav_textview"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/GrayLight"
+        android:text="No favourites"/>
+    
+    
 
 </RelativeLayout>

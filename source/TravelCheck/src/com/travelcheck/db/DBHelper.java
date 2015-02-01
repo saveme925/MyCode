@@ -125,7 +125,8 @@ public class DBHelper extends SQLiteOpenHelper implements DATABASE_VARIABLES {
 		for (int i = 0; i < c.getCount(); i++) {
 			FavouritesModel l_model	=	new FavouritesModel();
 			String l_name	=	c.getString(c.getColumnIndex(CONTACTS));
-			l_model.setProperties(l_name);
+			String l_type	=	c.getString(c.getColumnIndex(TYPE));
+			l_model.setProperties(l_name,l_type);
 			l_list.add(l_model);
 			c.moveToNext();
 		}
@@ -134,10 +135,11 @@ public class DBHelper extends SQLiteOpenHelper implements DATABASE_VARIABLES {
 
 	}
 
-	public long saveFavourites(String p_contact) {
+	public long saveFavourites(String p_contact,String p_type) {
 
 		ContentValues l_cv = new ContentValues();
 		l_cv.put(CONTACTS, p_contact);
+		l_cv.put(TYPE, p_type);
 		mResponseId = myDataBase.insert(TABLE_NAME, null, l_cv);
 
 		return mResponseId;
@@ -145,7 +147,6 @@ public class DBHelper extends SQLiteOpenHelper implements DATABASE_VARIABLES {
 	}
 
 	public int deleteFavouritesList(String p_contact) {
-
 		int l_res = myDataBase.delete(TABLE_NAME, CONTACTS + "=?",
 				new String[] { p_contact });
 		return l_res;

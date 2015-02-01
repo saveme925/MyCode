@@ -73,6 +73,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 	/**
 	 * Global variables
 	 */
+	public static FavouriteListAdapter l_fav_adapter;
 	private TextView mPickContacts;
 	private TextView mAddEmail;
 	private TextView mAddPhoneNumber;
@@ -94,7 +95,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 	// LocationManager mLocationManager;
 	public TextView currentLocTxt;
 	private Location location;
-	private Double mLatitude, mLongitude;
+
 	String CityName = "";
 	String StateName = "";
 	String CountryName = "";
@@ -137,10 +138,11 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 			Location gpsLocation = mAppLocationService
 					.getLocation(FavouritesContacts.this);
 			if (gpsLocation != null) {
-				mLatitude = gpsLocation.getLatitude();
-				mLongitude = gpsLocation.getLongitude();
-				LocationAddress.getAddressFromLocation(mLatitude, mLongitude,
-						getApplicationContext(), new GeocoderHandler());
+				Util.mLatitude = gpsLocation.getLatitude();
+				Util.mLongitude = gpsLocation.getLongitude();
+				LocationAddress.getAddressFromLocation(Util.mLatitude,
+						Util.mLongitude, getApplicationContext(),
+						new GeocoderHandler());
 
 			} else {
 				buildAlertMessageNoGps();
@@ -442,6 +444,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 
 		}
 	};
+	private TextView mNoFavText;
 
 	/**
 	 * Method to pick all emails and phone number from device
@@ -471,7 +474,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 							.getString(pCur
 									.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 					PhoneModel l_model = new PhoneModel();
-					l_model.setProperties(phone);
+					l_model.setProperties(phone, "phone");
 					l_phoneNumber.add(l_model);
 
 				}
@@ -488,7 +491,7 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 							.getString(emailCur
 									.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
 					EmailModel l_model = new EmailModel();
-					l_model.setProperties(email);
+					l_model.setProperties(email, "email");
 					l_emailAddress.add(l_model);
 
 				}
@@ -517,10 +520,11 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 				.findViewById(R.id.add_linearlayout);
 		mAddFavouites.setVisibility(View.VISIBLE);
 		mEmailList = (ListView) view.findViewById(R.id.favourite_list);
+		mNoFavText = (TextView) view.findViewById(R.id.nofav_textview);
 		mAddFavouites.setOnClickListener(makeFavClickListener);
 		builder.setContentView(view);
-		FavouriteListAdapter l_fav_adapter = new FavouriteListAdapter(
-				FavouritesContacts.this, Util.l_contact_list);
+		l_fav_adapter = new FavouriteListAdapter(FavouritesContacts.this,
+				Util.l_contact_list, dbh,mEmailList,mNoFavText);
 		mEmailList.setAdapter(l_fav_adapter);
 
 		setLayoutOfBuilder();
@@ -821,15 +825,15 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 				// .findFragmentById(R.id.map)).getMap();
 
 				mOptions = new MarkerOptions().position(
-						new LatLng(mLatitude, mLongitude)).title(
+						new LatLng(Util.mLatitude, Util.mLongitude)).title(
 						p_locationAddress);
 				mOptions.icon(BitmapDescriptorFactory
 						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 				googleMap.addMarker(mOptions);
 
 				CameraPosition cameraPosition = new CameraPosition.Builder()
-						.target(new LatLng(mLatitude, mLongitude)).zoom(12)
-						.build();
+						.target(new LatLng(Util.mLatitude, Util.mLongitude))
+						.zoom(12).build();
 
 				googleMap.animateCamera(CameraUpdateFactory
 						.newCameraPosition(cameraPosition));
@@ -851,16 +855,16 @@ public class FavouritesContacts extends BaseActivity implements OnTouchListener 
 	private class GeocoderHandler extends Handler {
 		@Override
 		public void handleMessage(Message message) {
-			String locationAddress;
+
 			switch (message.what) {
 			case 1:
 				Bundle bundle = message.getData();
-				locationAddress = bundle.getString("address");
+				Util.locationAddress = bundle.getString("address");
 				break;
 			default:
-				locationAddress = null;
+				Util.locationAddress = null;
 			}
-			initilizeMap(locationAddress);
+			initilizeMap(Util.locationAddress);
 		}
 	}
 

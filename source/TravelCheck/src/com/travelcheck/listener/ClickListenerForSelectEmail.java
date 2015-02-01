@@ -39,10 +39,11 @@ public class ClickListenerForSelectEmail implements OnClickListener {
 		Bitmap bitmap2 = ((BitmapDrawable) m_context.getResources()
 				.getDrawable(R.drawable.right_inactive)).getBitmap();
 		String l_addcontact	=	m_model.getmName();
+		String l_type	=	m_model.getmType();
 		if (bitmap == bitmap2) {
 
 			m_selectedState.setBackgroundResource(R.drawable.right_active);
-			long l_id = m_dbh.saveFavourites(l_addcontact);
+			long l_id = m_dbh.saveFavourites(l_addcontact,l_type);
 			Log.i("ID", "" + l_id);
 			m_model.setmCheck(true);
 

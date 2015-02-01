@@ -52,6 +52,8 @@ public class Util {
 
 	private static Context mAppicationContxt;
 	public static List<FavouritesModel> l_contact_list;
+	public static Double mLatitude, mLongitude;
+	public static String locationAddress = "";
 
 	/**
 	 * @param drawbaleResource
@@ -116,61 +118,6 @@ public class Util {
 		}
 
 	}
-
-	/**
-	 * Method to fetch all email address from the devices
-	 * 
-	 * @param p_context
-	 * @return
-	 */
-
-	public static List<EmailModel> doLaunchContactPicker(Context p_context) {
-
-		List<EmailModel> l_emailId = new ArrayList<EmailModel>();
-		ContentResolver cr = p_context.getContentResolver();
-		Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null,
-				null, null, null);
-		if (cur.getCount() > 0) {
-			while (cur.moveToNext()) {
-				String id = cur.getString(cur
-						.getColumnIndex(ContactsContract.Contacts._ID));
-
-				// if (Integer
-				// .parseInt(cur.getString(cur
-				// .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))
-				// > 0) {
-
-				Cursor emailCur = cr.query(
-						ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-						null, ContactsContract.CommonDataKinds.Email.CONTACT_ID
-								+ " = ?", new String[] { id }, null);
-				while (emailCur.moveToNext()) {
-					// This would allow you get several email addresses
-					// if the email addresses were stored in an array
-					String email = emailCur
-							.getString(emailCur
-									.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-					String phoneNumber = emailCur
-							.getString(emailCur
-									.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-					EmailModel l_model = new EmailModel();
-					l_model.setProperties(email);
-					l_emailId.add(l_model);
-
-				}
-				emailCur.close();
-
-			}
-
-		}
-		// }
-
-		return l_emailId;
-
-	}
-
-	
 
 	public static SpannableString underlineText(String text) {
 		SpannableString contentUnderline = new SpannableString(text);
@@ -364,8 +311,7 @@ public class Util {
 		return filename;
 
 	}
-	
-	
+
 	/**
 	 * @param p_content_uri
 	 *            Content uri of an image.
@@ -403,6 +349,5 @@ public class Util {
 		return uriSting;
 
 	}
-
 
 }

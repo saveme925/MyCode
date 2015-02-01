@@ -8,11 +8,12 @@ public class PhoneModel {
 	
 	private String mName;
 	private boolean mCheck;
+	private String mType;
 	
-	
-	public void setProperties(String p_name) {
+	public void setProperties(String p_name, String p_type) {
 		
 		mName = p_name;
+		mType	=	p_type;
 		if (Util.l_contact_list != null && Util.l_contact_list.size() > 0) {
 			for (int i = 0; i < Util.l_contact_list.size(); i++) {
 				if (mName.equals(Util.l_contact_list.get(i).getmName())) {
@@ -43,6 +44,16 @@ public class PhoneModel {
 
 	public void setmCheck(Boolean mCheck) {
 		this.mCheck = mCheck;
+	}
+
+
+	public String getmType() {
+		return mType;
+	}
+
+
+	public void setmType(String mType) {
+		this.mType = mType;
 	}
 
 }

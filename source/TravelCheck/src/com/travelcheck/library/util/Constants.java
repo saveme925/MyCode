@@ -34,6 +34,7 @@ public class Constants {
 	public interface DATABASE_VARIABLES {
 
 		final String CONTACTS = "contact_number";
+		final String TYPE	=	"type";
 
 	}
 
